@@ -6,10 +6,12 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="simple_servlet_service" />
         <module name="simple_web_service" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="simple_servlet_service" target="1.5" />
       <module name="simple_web_service" target="1.5" />
       <module name="tomcat_learning" target="1.5" />
     </bytecodeTargetLevel>
