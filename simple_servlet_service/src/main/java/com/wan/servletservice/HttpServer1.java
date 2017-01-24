@@ -1,9 +1,17 @@
 package com.wan.servletservice;
 
+import com.wan.servletservice.processor.ServletProcessor1;
+import com.wan.servletservice.processor.StaticResourceProcessor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.InetAddress;
+import java.net.ServerSocket;
+import java.net.Socket;
 
 /**
  * Created by wanqinfeng on 2017/1/24.
@@ -12,9 +20,64 @@ public class HttpServer1 {
     //log
     private static Logger LOGGER = LoggerFactory.getLogger(HttpServer1.class);
 
-    //resource path
-    public static final String WEB_ROOT = System.getProperty("user.dir") + File.separator + "webroot";
-
     //shutdown command
     private static final String SHUTDOWN_COMMAND = "/SHUTDOWN";
+
+    //the shutdown command receiver
+    private static boolean shutdown = false;
+
+    public static void main(String[] args) {
+        HttpServer1 server = new HttpServer1();
+        server.await();
+    }
+
+    private void await() {
+        ServerSocket serverSocket = null;
+        int port = 8080;
+        try {
+            serverSocket = new ServerSocket(port, 1, InetAddress.getByName("127.0.0.1"));
+        } catch (IOException e) {
+            LOGGER.error("server socket create fail!", e);
+            System.exit(1);
+        }
+
+        //loop wait for a request
+        while (!shutdown) {
+            Socket socket = null;
+            InputStream input = null;
+            OutputStream output = null;
+            try {
+                socket = serverSocket.accept();
+                input = socket.getInputStream();
+                output = socket.getOutputStream();
+
+                //create Request object and parse
+                Request request = new Request(input);
+                request.parse();
+
+                //create Response object
+                Response response = new Response(output);
+                response.setRequest(request);
+
+                //check if this is a request for a servlet or
+                //a static resource
+                //a request for a servlet begins with "/servlet/"
+                if (request.getUri().startsWith("/servlet/")) {
+                    ServletProcessor1 processor = new ServletProcessor1();
+                    processor.process(request, response);
+                } else {
+                    StaticResourceProcessor processor = new StaticResourceProcessor();
+                    processor.process(request, response);
+                }
+
+                //close the socket
+                socket.close();
+                //check if the previous URI is a shutdown command
+                shutdown = request.getUri().equals(SHUTDOWN_COMMAND);
+            } catch (IOException e) {
+                LOGGER.error("connection with client fail", e);
+                System.exit(1);
+            }
+        }
+    }
 }
