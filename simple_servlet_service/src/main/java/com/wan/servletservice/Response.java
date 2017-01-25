@@ -30,7 +30,7 @@ public class Response implements ServletResponse {
         byte[] bytes = new byte[BUFFER_SIZE];
         FileInputStream fis = null;
         try {
-            File file = new File(Constants.WEB_ROOT, request.getUri());
+            File file = new File(Constants.WEB_ROOT, request.getUri().substring(1));
             fis = new FileInputStream(file);
             int ch = fis.read(bytes, 0, BUFFER_SIZE);
             while (ch != -1) {
