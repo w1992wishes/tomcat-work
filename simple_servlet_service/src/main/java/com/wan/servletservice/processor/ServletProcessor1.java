@@ -3,6 +3,8 @@ package com.wan.servletservice.processor;
 import com.wan.servletservice.Request;
 import com.wan.servletservice.Response;
 import com.wan.servletservice.constant.Constants;
+import com.wan.servletservice.facade.RequestFacade;
+import com.wan.servletservice.facade.ResponseFacade;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -55,7 +57,9 @@ public class ServletProcessor1 {
         Servlet servlet = null;
         try {
             servlet = (Servlet) myClass.newInstance();
-            servlet.service((ServletRequest) request, (ServletResponse) response);
+            RequestFacade requestFacade = new RequestFacade(request);
+            ResponseFacade responseFacade = new ResponseFacade(response);
+            servlet.service((ServletRequest) requestFacade, (ServletResponse) responseFacade);
         } catch (Exception e) {
             LOGGER.error("", e);
         } catch (Throwable e) {
