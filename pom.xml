@@ -11,6 +11,7 @@
     <modules>
         <module>simple_web_service</module>
         <module>simple_servlet_service</module>
+        <module>simple_servlet_service1</module>
     </modules>
 
     <dependencies>
@@ -31,6 +32,12 @@
             <groupId>javax.servlet</groupId>
             <artifactId>javax.servlet-api</artifactId>
             <version>3.1.0</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/tomcat/catalina -->
+        <dependency>
+            <groupId>tomcat</groupId>
+            <artifactId>catalina</artifactId>
+            <version>4.0.4</version>
         </dependency>
     </dependencies>
 
