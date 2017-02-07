@@ -9,6 +9,5 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>simple_web_service</artifactId>
-
+    <artifactId>simple_tomcat_02</artifactId>
 </project>

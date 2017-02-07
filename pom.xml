@@ -9,9 +9,10 @@
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
     <modules>
-        <module>simple_web_service</module>
-        <module>simple_servlet_service</module>
-        <module>simple_servlet_service1</module>
+        <module>simple_tomcat_01</module>
+        <module>simple_tomcat_02</module>
+        <module>simple_tomcat_03</module>
+        <module>simple_tomcat_04</module>
     </modules>
 
     <dependencies>
