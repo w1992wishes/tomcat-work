@@ -10,6 +10,7 @@ import java.beans.PropertyChangeListener;
 import java.io.IOException;
 
 /**
+ * 一个wrapper容器只有一个servlet类
  * Created by wanqinfeng on 2017/2/19.
  */
 public class SimpleWrapper implements Wrapper, Pipeline{
@@ -138,7 +139,7 @@ public class SimpleWrapper implements Wrapper, Pipeline{
     }
 
     @Override
-    public void setName(String s) {
+    public void setName(String name) {
         this.name = name;
     }
 
