@@ -15,6 +15,8 @@
         <module>simple_tomcat_04</module>
         <module>simple_tomcat_05</module>
         <module>simple_tomcat_06</module>
+        <module>simple_tomcat_07</module>
+        <module>simple_tomcat_08</module>
     </modules>
 
     <dependencies>
