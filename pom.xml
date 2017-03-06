@@ -17,6 +17,7 @@
         <module>simple_tomcat_06</module>
         <module>simple_tomcat_07</module>
         <module>simple_tomcat_08</module>
+        <module>simple_tomcat_09</module>
     </modules>
 
     <dependencies>
