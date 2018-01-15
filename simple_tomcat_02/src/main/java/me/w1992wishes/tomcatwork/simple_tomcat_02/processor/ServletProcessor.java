@@ -18,7 +18,7 @@ import java.net.URLStreamHandler;
 /**
  * Created by wanqinfeng on 2017/1/24.
  */
-public class ServletProcessor1 extends Processor{
+public class ServletProcessor extends Processor{
 
     @Override
     boolean match(String url) {

@@ -2,7 +2,7 @@ package me.w1992wishes.tomcatwork.simple_tomcat_02;
 
 import me.w1992wishes.tomcatwork.simple_tomcat_02.processor.DefaultProcessor;
 import me.w1992wishes.tomcatwork.simple_tomcat_02.processor.Processor;
-import me.w1992wishes.tomcatwork.simple_tomcat_02.processor.ServletProcessor1;
+import me.w1992wishes.tomcatwork.simple_tomcat_02.processor.ServletProcessor;
 import me.w1992wishes.tomcatwork.simple_tomcat_02.processor.StaticResourceProcessor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,9 +17,9 @@ import java.net.Socket;
 /**
  * Created by wanqinfeng on 2017/1/24.
  */
-public class HttpServer1 {
+public class HttpServer {
     //log
-    private static final Logger LOGGER = LoggerFactory.getLogger(HttpServer1.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(HttpServer.class);
 
     //shutdown command
     private static final String SHUTDOWN_COMMAND = "/SHUTDOWN";
@@ -28,7 +28,7 @@ public class HttpServer1 {
     private static boolean shutdown = false;
 
     public static void main(String[] args) {
-        HttpServer1 server = new HttpServer1();
+        HttpServer server = new HttpServer();
         server.await();
     }
 
@@ -63,7 +63,7 @@ public class HttpServer1 {
                 //check if this is a request for a servlet or
                 //a static resource
                 //a request for a servlet begins with "/servlet/"
-                Processor servletProcessor = new ServletProcessor1();
+                Processor servletProcessor = new ServletProcessor();
                 Processor staticProcessor = new StaticResourceProcessor();
                 Processor defaultProcessor = new DefaultProcessor();
                 staticProcessor.setProcessor(defaultProcessor);
