@@ -14,7 +14,7 @@ public class Request {
     private String uri;
 
     //log
-    private static Logger LOGGER = LoggerFactory.getLogger(Request.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(Request.class);
 
     public Request(InputStream input) {
         this.input = input;

@@ -17,7 +17,7 @@ import java.net.Socket;
 public class HttpServer {
 
     //log
-    private static Logger LOGGER = LoggerFactory.getLogger(HttpServer.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(HttpServer.class);
 
     //resource path
     public static final String WEB_ROOT = System.getProperty("user.dir") + File.separator + "webroot";
