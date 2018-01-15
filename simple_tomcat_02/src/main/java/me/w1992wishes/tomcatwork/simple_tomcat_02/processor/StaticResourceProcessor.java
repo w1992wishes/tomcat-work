@@ -6,10 +6,23 @@ import me.w1992wishes.tomcatwork.simple_tomcat_02.Request;
 import java.io.IOException;
 
 /**
+ * 静态资源处理器
+ *
  * Created by wanqinfeng on 2017/1/24.
  */
-public class StaticResourceProcessor {
-    public void process(Request request, Response response) throws IOException {
-        response.sendStaticResource();
+public class StaticResourceProcessor extends Processor{
+
+    @Override
+    boolean match(String url) {
+        return url.startsWith("/resource");
+    }
+
+    @Override
+    protected void action(Request request, Response response) {
+        try {
+            response.sendStaticResource();
+        } catch (IOException e) {
+            LOG.error("send static resource failure");
+        }
     }
 }

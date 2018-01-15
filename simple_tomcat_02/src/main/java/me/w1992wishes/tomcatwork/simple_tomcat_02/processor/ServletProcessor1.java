@@ -5,8 +5,6 @@ import me.w1992wishes.tomcatwork.simple_tomcat_02.constant.Constants;
 import me.w1992wishes.tomcatwork.simple_tomcat_02.facade.RequestFacade;
 import me.w1992wishes.tomcatwork.simple_tomcat_02.Request;
 import me.w1992wishes.tomcatwork.simple_tomcat_02.facade.ResponseFacade;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import javax.servlet.Servlet;
 import javax.servlet.ServletRequest;
@@ -20,11 +18,15 @@ import java.net.URLStreamHandler;
 /**
  * Created by wanqinfeng on 2017/1/24.
  */
-public class ServletProcessor1 {
+public class ServletProcessor1 extends Processor{
 
-    private Logger LOGGER = LoggerFactory.getLogger(ServletProcessor1.class);
+    @Override
+    boolean match(String url) {
+        return url.startsWith("/servlet");
+    }
 
-    public void process(Request request, Response response) {
+    @Override
+    protected void action(Request request, Response response) {
         String uri = request.getUri();
         String servletName = uri.substring(uri.lastIndexOf("/") + 1);
         URLClassLoader loader = null;
@@ -36,22 +38,22 @@ public class ServletProcessor1 {
             //createClassLoader method n
             //org.apache.catalina.startup.ClassLoaderFactory
             String repository = (new URL("file", null, classPath.getCanonicalPath() + File.separator)).toString();
-            LOGGER.debug(classPath.getCanonicalPath());
-            LOGGER.debug(repository);
+            LOG.debug(classPath.getCanonicalPath());
+            LOG.debug(repository);
             //the code for forming the URL is taken form
             //the addRepository method in
             //org.apache.catalina.loader.StandardClassLoader
             urls[0] = new URL(null, repository, streamHandler);
             loader = new URLClassLoader(urls);
         } catch (IOException e) {
-            LOGGER.error("servlet process fail", e);
+            LOG.error("servlet process fail", e);
         }
 
         Class myClass = null;
         try {
             myClass = loader.loadClass(servletName);
         } catch (ClassNotFoundException e) {
-            LOGGER.error("load class fail", e);
+            LOG.error("load class fail", e);
         }
 
         Servlet servlet = null;
@@ -61,9 +63,9 @@ public class ServletProcessor1 {
             ResponseFacade responseFacade = new ResponseFacade(response);
             servlet.service((ServletRequest) requestFacade, (ServletResponse) responseFacade);
         } catch (Exception e) {
-            LOGGER.error("", e);
+            LOG.error("", e);
         } catch (Throwable e) {
-            LOGGER.error("", e);
+            LOG.error("", e);
         }
     }
 }
