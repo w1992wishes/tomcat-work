@@ -1,0 +1,126 @@
+2018-01-15 10:19:53  [ main:0 ] - [ INFO ]  webroot path E:\java\wan\tomcat-work\webroot
+2018-01-15 10:19:57  [ main:4028 ] - [ DEBUG ]  GET /index.html HTTP/1.1
+Host: localhost:8080
+Connection: keep-alive
+Cache-Control: max-age=0
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/62.0.3202.94 Safari/537.36
+Upgrade-Insecure-Requests: 1
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8
+Accept-Encoding: gzip, deflate, br
+Accept-Language: en,zh-CN;q=0.9,zh;q=0.8
+Cookie: JSESSIONID=1ur4tfbgerlry1ekwk1azrgncb; ems.userName=admin; ems.rememberName=true
+
+
+2018-01-15 10:20:24  [ main:30685 ] - [ DEBUG ]  
+2018-01-15 10:20:24  [ main:30687 ] - [ ERROR ]  write out data fail
+java.lang.NullPointerException
+	at java.io.File.<init>(File.java:317)
+	at com.wan.simpleservice.Response.sendStaticResource(Response.java:32)
+	at com.wan.simpleservice.HttpServer.await(HttpServer.java:63)
+	at com.wan.simpleservice.HttpServer.main(HttpServer.java:34)
+2018-01-15 10:21:31  [ main:0 ] - [ INFO ]  webroot path E:\java\wan\tomcat-work\webroot
+2018-01-15 10:21:54  [ main:22509 ] - [ DEBUG ]  GET /index.html HTTP/1.1
+Host: 127.0.0.1:8080
+Connection: keep-alive
+Cache-Control: max-age=0
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/62.0.3202.94 Safari/537.36
+Upgrade-Insecure-Requests: 1
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8
+Accept-Encoding: gzip, deflate, br
+Accept-Language: en,zh-CN;q=0.9,zh;q=0.8
+
+
+2018-01-15 10:23:16  [ main:104374 ] - [ DEBUG ]  
+2018-01-15 10:23:26  [ main:114721 ] - [ ERROR ]  write out data fail
+java.lang.NullPointerException
+	at java.io.File.<init>(File.java:317)
+	at com.wan.simpleservice.Response.sendStaticResource(Response.java:32)
+	at com.wan.simpleservice.HttpServer.await(HttpServer.java:63)
+	at com.wan.simpleservice.HttpServer.main(HttpServer.java:34)
+2018-01-15 10:27:37  [ main:0 ] - [ INFO ]  webroot path E:\java\wan\tomcat-work\webroot
+2018-01-15 10:27:41  [ main:4146 ] - [ DEBUG ]  GET /index.html HTTP/1.1
+Host: 127.0.0.1:8080
+Connection: keep-alive
+Cache-Control: max-age=0
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/62.0.3202.94 Safari/537.36
+Upgrade-Insecure-Requests: 1
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8
+Accept-Encoding: gzip, deflate, br
+Accept-Language: en,zh-CN;q=0.9,zh;q=0.8
+
+
+2018-01-15 10:27:53  [ main:15678 ] - [ DEBUG ]  
+2018-01-15 10:27:53  [ main:15679 ] - [ ERROR ]  write out data fail
+java.lang.NullPointerException
+	at java.io.File.<init>(File.java:317)
+	at com.wan.simpleservice.Response.sendStaticResource(Response.java:32)
+	at com.wan.simpleservice.HttpServer.await(HttpServer.java:63)
+	at com.wan.simpleservice.HttpServer.main(HttpServer.java:34)
+2018-01-15 10:28:07  [ main:0 ] - [ INFO ]  webroot path E:\java\wan\tomcat-work\webroot
+2018-01-15 10:28:13  [ main:6035 ] - [ DEBUG ]  GET /index.html HTTP/1.1
+Host: 127.0.0.1:8081
+Connection: keep-alive
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/62.0.3202.94 Safari/537.36
+Upgrade-Insecure-Requests: 1
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8
+Accept-Encoding: gzip, deflate, br
+Accept-Language: en,zh-CN;q=0.9,zh;q=0.8
+
+
+2018-01-15 10:28:19  [ main:11749 ] - [ DEBUG ]  GET /index.html HTTP/1.1
+Host: 127.0.0.1:8081
+Connection: keep-alive
+Cache-Control: max-age=0
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/62.0.3202.94 Safari/537.36
+Upgrade-Insecure-Requests: 1
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8
+Accept-Encoding: gzip, deflate, br
+Accept-Language: en,zh-CN;q=0.9,zh;q=0.8
+
+
+2018-01-15 10:28:39  [ main:31934 ] - [ DEBUG ]  
+2018-01-15 10:28:39  [ main:31937 ] - [ ERROR ]  write out data fail
+java.lang.NullPointerException
+	at java.io.File.<init>(File.java:317)
+	at com.wan.simpleservice.Response.sendStaticResource(Response.java:32)
+	at com.wan.simpleservice.HttpServer.await(HttpServer.java:63)
+	at com.wan.simpleservice.HttpServer.main(HttpServer.java:34)
+2018-01-15 10:29:52  [ main:0 ] - [ INFO ]  webroot path E:\java\wan\tomcat-work\webroot
+2018-01-15 10:30:29  [ main:0 ] - [ DEBUG ]  webroot path E:\java\wan\tomcat-work\webroot
+2018-01-15 10:31:00  [ main:31340 ] - [ DEBUG ]  GET /index.html HTTP/1.1
+Host: 127.0.0.1:8080
+Connection: keep-alive
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.106 BIDUBrowser/8.7 Safari/537.36
+Accept-Encoding: gzip, deflate
+Accept-Language: zh-CN,zh;q=0.8
+DNT: 1
+
+
+2018-01-15 10:31:00  [ main:31463 ] - [ DEBUG ]  GET /favicon.ico HTTP/1.1
+Host: 127.0.0.1:8080
+Connection: keep-alive
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.106 Safari/537.36
+Accept-Encoding: gzip, deflate
+Accept-Language: zh-CN,zh;q=0.8
+DNT: 1
+
+
+2018-01-15 10:31:25  [ main:56159 ] - [ DEBUG ]  GET /index.html HTTP/1.1
+Host: 127.0.0.1:8080
+Connection: keep-alive
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/62.0.3202.94 Safari/537.36
+Upgrade-Insecure-Requests: 1
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8
+Accept-Encoding: gzip, deflate, br
+Accept-Language: en,zh-CN;q=0.9,zh;q=0.8
+
+
+2018-01-15 10:31:44  [ main:75121 ] - [ DEBUG ]  
+2018-01-15 10:31:44  [ main:75124 ] - [ ERROR ]  write out data fail
+java.lang.NullPointerException
+	at java.io.File.<init>(File.java:317)
+	at com.wan.simpleservice.Response.sendStaticResource(Response.java:32)
+	at com.wan.simpleservice.HttpServer.await(HttpServer.java:63)
+	at com.wan.simpleservice.HttpServer.main(HttpServer.java:34)

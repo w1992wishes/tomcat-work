@@ -1,0 +1,19 @@
+Manifest-Version: 1.0
+Created-By: Apache Ant 1.5
+
+Name: javax/servlet/
+Specification-Title: Java API for Servlets
+Specification-Version: 2.3
+Specification-Vendor: Sun Microsystems, Inc.
+Implementation-Title: javax.servlet
+Implementation-Version: 2.3.1
+Implementation-Vendor: Apache Software Foundation
+
+Name: javax/servlet/jsp/
+Specification-Title: Java API for JavaServer Pages
+Specification-Version: 1.2
+Specification-Vendor: Sun Microsystems, Inc.
+Implementation-Title: javax.servlet.jsp
+Implementation-Version: 1.2.1
+Implementation-Vendor: Apache Software Foundation
+
