@@ -56,7 +56,7 @@ public class Request implements ServletRequest {
         for (int j = 0; j < i; j++) {
             request.append((char) buffer[j]);
         }
-        LOGGER.info(request.toString());
+        LOGGER.info("the request info : {}", request.toString());
         uri = parseUri(request.toString());
     }
 

@@ -73,7 +73,7 @@ public class HttpServer {
                 //close the socket
                 socket.close();
                 //check if the previous URI is a shutdown command
-                shutdown = request.getUri().equals(SHUTDOWN_COMMAND);
+                shutdown = request.getUri() == null ? false : request.getUri().equals(SHUTDOWN_COMMAND);
             } catch (IOException e) {
                 LOGGER.error("connection with client fail", e);
                 System.exit(1);

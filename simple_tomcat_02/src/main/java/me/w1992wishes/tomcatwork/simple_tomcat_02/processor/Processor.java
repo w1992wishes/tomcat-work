@@ -13,7 +13,7 @@ import org.slf4j.LoggerFactory;
  */
 public abstract class Processor {
 
-    protected Logger LOG = LoggerFactory.getLogger(getClass());
+    protected Logger LOGGER = LoggerFactory.getLogger(getClass());
 
     private Processor processor;
 

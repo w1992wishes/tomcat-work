@@ -7,7 +7,7 @@
 
 ## 二、路线
 
-1. simple_tomcat01 一个简单的程序，用于了解tomcat底层是一句socket通信；
-2. simple_tomcat02 01只能加载静态资源，02区分静态资源和Servlet的加载，主要是利用反射调用静态资源
+1. simple_tomcat01 一个简单的程序，用于了解tomcat底层是依据socket通信；
+2. simple_tomcat02 01只能加载静态资源，02区分静态资源和Servlet的加载，主要是利用反射生成servlet实例
 （在02中使用RequestFacade和ResponseFacade是因为request中的parse方法和response的sendStaticResource方法不应该在servlet被使用，
 使用Facade进行限制）；

@@ -14,7 +14,7 @@ public class StaticResourceProcessor extends Processor{
 
     @Override
     boolean match(String url) {
-        return url.startsWith("/resource");
+        return url == null ? false : url.startsWith("/resource");
     }
 
     @Override
@@ -22,7 +22,7 @@ public class StaticResourceProcessor extends Processor{
         try {
             response.sendStaticResource();
         } catch (IOException e) {
-            LOG.error("send static resource failure");
+            LOGGER.error("send static resource failure");
         }
     }
 }

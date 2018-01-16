@@ -22,7 +22,7 @@ public class ServletProcessor extends Processor{
 
     @Override
     boolean match(String url) {
-        return url.startsWith("/servlet");
+        return url == null ? false : url.startsWith("/servlet");
     }
 
     @Override
@@ -38,22 +38,22 @@ public class ServletProcessor extends Processor{
             //createClassLoader method n
             //org.apache.catalina.startup.ClassLoaderFactory
             String repository = (new URL("file", null, classPath.getCanonicalPath() + File.separator)).toString();
-            LOG.debug(classPath.getCanonicalPath());
-            LOG.debug(repository);
+            LOGGER.debug("class path: {}", classPath.getCanonicalPath());
+            LOGGER.debug("url: {}", repository);
             //the code for forming the URL is taken form
             //the addRepository method in
             //org.apache.catalina.loader.StandardClassLoader
             urls[0] = new URL(null, repository, streamHandler);
             loader = new URLClassLoader(urls);
         } catch (IOException e) {
-            LOG.error("servlet process fail", e);
+            LOGGER.error("servlet process fail", e);
         }
 
         Class myClass = null;
         try {
             myClass = loader.loadClass(servletName);
         } catch (ClassNotFoundException e) {
-            LOG.error("load class fail", e);
+            LOGGER.error("load class fail", e);
         }
 
         Servlet servlet = null;
@@ -63,9 +63,9 @@ public class ServletProcessor extends Processor{
             ResponseFacade responseFacade = new ResponseFacade(response);
             servlet.service((ServletRequest) requestFacade, (ServletResponse) responseFacade);
         } catch (Exception e) {
-            LOG.error("", e);
+            LOGGER.error("", e);
         } catch (Throwable e) {
-            LOG.error("", e);
+            LOGGER.error("", e);
         }
     }
 }

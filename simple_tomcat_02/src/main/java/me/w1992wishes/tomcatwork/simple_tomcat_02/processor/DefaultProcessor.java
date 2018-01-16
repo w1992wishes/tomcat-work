@@ -27,17 +27,16 @@ public class DefaultProcessor extends Processor {
             String message = "no suitable processor";
             writer.write(message);
         } catch (IOException e) {
-            LOG.error("get response writer failure");
+            LOGGER.error("get response writer failure");
         } finally {
             if (writer != null){
                 try {
                     writer.close();
                 } catch (IOException e) {
-                    LOG.error("close writer failure");
+                    LOGGER.error("close writer failure");
                 }
             }
         }
-
     }
 
 }
