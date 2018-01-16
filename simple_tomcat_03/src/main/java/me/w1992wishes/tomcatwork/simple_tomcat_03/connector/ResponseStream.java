@@ -35,7 +35,7 @@ public class ResponseStream extends ServletOutputStream {
         commit = false;
         count = 0;
         this.response = response;
-      //  this.stream = response.getStream();
+        //  this.stream = response.getStream();
 
     }
 
@@ -124,10 +124,10 @@ public class ResponseStream extends ServletOutputStream {
      * Flush any buffered data for this output stream, which also causes the
      * response to be committed.
      */
-  public void flush() throws IOException {
-    if (closed)
+    public void flush() throws IOException {
+        if (closed)
             throw new IOException("responseStream.flush.closed");
-       if (commit)
+        if (commit)
             response.flushBuffer();
 
     }
@@ -137,8 +137,7 @@ public class ResponseStream extends ServletOutputStream {
      * Write the specified byte to our output stream.
      *
      * @param b The byte to be written
-     *
-     * @exception IOException if an input/output error occurs
+     * @throws IOException if an input/output error occurs
      */
     public void write(int b) throws IOException {
 

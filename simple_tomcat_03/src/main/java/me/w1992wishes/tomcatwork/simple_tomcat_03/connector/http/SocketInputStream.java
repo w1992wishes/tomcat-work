@@ -97,13 +97,6 @@ public class SocketInputStream extends InputStream {
     // -------------------------------------------------------------- Variables
 
 
-    /**
-     * The string manager for this package.
-     */
-//    protected static StringManager sm =
-//        StringManager.getManager(Constants.PACKAGE);
-
-
     // ----------------------------------------------------- Instance Variables
 
 

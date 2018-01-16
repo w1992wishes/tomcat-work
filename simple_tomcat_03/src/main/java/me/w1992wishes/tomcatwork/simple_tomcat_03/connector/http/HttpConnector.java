@@ -10,7 +10,7 @@ import java.net.Socket;
 
 public class HttpConnector implements Runnable {
 
-    private Logger LOGGER = LoggerFactory.getLogger(HttpConnector.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(HttpConnector.class);
     boolean stopped;
     private String scheme = "http";
 
@@ -24,7 +24,7 @@ public class HttpConnector implements Runnable {
         try {
             serverSocket = new ServerSocket(port, 1, InetAddress.getByName("127.0.0.1"));
         } catch (IOException e) {
-            e.printStackTrace();
+            LOGGER.error("connect socket failure", e);
             System.exit(1);
         }
         while (!stopped) {
@@ -32,7 +32,7 @@ public class HttpConnector implements Runnable {
             Socket socket = null;
             try {
                 socket = serverSocket.accept();
-                LOGGER.debug("debug: " + Thread.currentThread().getName());
+                LOGGER.debug("-------- debug: {} ------------", Thread.currentThread().getName());
             } catch (Exception e) {
                 continue;
             }

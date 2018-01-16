@@ -1,12 +1,5 @@
 package me.w1992wishes.tomcatwork.simple_tomcat_03.connector.http;
 
-/**
- * HTTP request line enum type.
- *
- * @author Remy Maucherat
- * @version $Revision: 1.6 $ $Date: 2002/03/18 07:15:40 $
- */
-
 final class HttpRequestLine {
 
 

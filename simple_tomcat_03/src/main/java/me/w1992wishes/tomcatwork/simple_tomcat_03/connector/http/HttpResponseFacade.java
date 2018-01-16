@@ -9,157 +9,160 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 
 public class HttpResponseFacade implements HttpServletResponse {
-  private HttpServletResponse response;
-  public HttpResponseFacade(HttpResponse response) {
-    this.response = response;
-  }
+    private HttpServletResponse response;
 
-  /** implementation of HttpServletResponse  */
-  public void addCookie(Cookie cookie) {
-    response.addCookie(cookie);
-  }
+    public HttpResponseFacade(HttpResponse response) {
+        this.response = response;
+    }
 
-  public void addDateHeader(String name, long value) {
-    response.addDateHeader(name, value);
-  }
+    /**
+     * implementation of HttpServletResponse
+     */
+    public void addCookie(Cookie cookie) {
+        response.addCookie(cookie);
+    }
 
-  public void addHeader(String name, String value) {
-    response.addHeader(name, value);
-  }
+    public void addDateHeader(String name, long value) {
+        response.addDateHeader(name, value);
+    }
 
-  public void addIntHeader(String name, int value) {
-    response.addIntHeader(name, value);
-  }
+    public void addHeader(String name, String value) {
+        response.addHeader(name, value);
+    }
 
-  public boolean containsHeader(String name) {
-    return response.containsHeader(name);
-  }
+    public void addIntHeader(String name, int value) {
+        response.addIntHeader(name, value);
+    }
 
-  public String encodeRedirectURL(String url) {
-    return response.encodeRedirectURL(url);
-  }
+    public boolean containsHeader(String name) {
+        return response.containsHeader(name);
+    }
 
-  public String encodeRedirectUrl(String url) {
-    return response.encodeRedirectUrl(url);
-  }
+    public String encodeRedirectURL(String url) {
+        return response.encodeRedirectURL(url);
+    }
 
-  public String encodeUrl(String url) {
-    return response.encodeUrl(url);
-  }
+    public String encodeRedirectUrl(String url) {
+        return response.encodeRedirectUrl(url);
+    }
 
-  public String encodeURL(String url) {
-    return response.encodeURL(url);
-  }
+    public String encodeUrl(String url) {
+        return response.encodeUrl(url);
+    }
 
-  public void flushBuffer() throws IOException {
-     response.flushBuffer();
-  }
+    public String encodeURL(String url) {
+        return response.encodeURL(url);
+    }
 
-  public int getBufferSize() {
-    return response.getBufferSize();
-  }
+    public void flushBuffer() throws IOException {
+        response.flushBuffer();
+    }
 
-  public String getCharacterEncoding() {
-    return response.getCharacterEncoding();
-  }
+    public int getBufferSize() {
+        return response.getBufferSize();
+    }
 
-  public String getContentType() {
-    return null;
-  }
+    public String getCharacterEncoding() {
+        return response.getCharacterEncoding();
+    }
 
-  public Locale getLocale() {
-    return response.getLocale();
-  }
+    public String getContentType() {
+        return null;
+    }
 
-  public ServletOutputStream getOutputStream() throws IOException {
-    return response.getOutputStream();
-  }
+    public Locale getLocale() {
+        return response.getLocale();
+    }
 
-  public PrintWriter getWriter() throws IOException {
-    return response.getWriter();
-  }
+    public ServletOutputStream getOutputStream() throws IOException {
+        return response.getOutputStream();
+    }
 
-  public void setCharacterEncoding(String charset) {
+    public PrintWriter getWriter() throws IOException {
+        return response.getWriter();
+    }
 
-  }
+    public void setCharacterEncoding(String charset) {
 
-  public boolean isCommitted() {
-    return response.isCommitted();
-  }
+    }
 
-  public void reset() {
-    response.reset();
-  }
+    public boolean isCommitted() {
+        return response.isCommitted();
+    }
 
-  public void resetBuffer() {
-    response.resetBuffer();
-  }
+    public void reset() {
+        response.reset();
+    }
 
-  public void sendError(int sc) throws IOException {
-    response.sendError(sc);
-  }
+    public void resetBuffer() {
+        response.resetBuffer();
+    }
 
-  public void sendError(int sc, String message) throws IOException {
-    response.sendError(sc, message);
-  }
+    public void sendError(int sc) throws IOException {
+        response.sendError(sc);
+    }
 
-  public void sendRedirect(String location) throws IOException {
-    response.sendRedirect(location);
-  }
+    public void sendError(int sc, String message) throws IOException {
+        response.sendError(sc, message);
+    }
 
-  public void setBufferSize(int size) {
-    response.setBufferSize(size);
-  }
+    public void sendRedirect(String location) throws IOException {
+        response.sendRedirect(location);
+    }
 
-  public void setContentLength(int length) {
-    response.setContentLength(length);
-  }
+    public void setBufferSize(int size) {
+        response.setBufferSize(size);
+    }
 
-  public void setContentLengthLong(long len) {
+    public void setContentLength(int length) {
+        response.setContentLength(length);
+    }
 
-  }
+    public void setContentLengthLong(long len) {
 
-  public void setContentType(String type) {
-    response.setContentType(type);
-  }
+    }
 
-  public void setDateHeader(String name, long value) {
-    response.setDateHeader(name, value);
-  }
+    public void setContentType(String type) {
+        response.setContentType(type);
+    }
 
-  public void setHeader(String name, String value) {
-    response.setHeader(name, value);
-  }
+    public void setDateHeader(String name, long value) {
+        response.setDateHeader(name, value);
+    }
 
-  public void setIntHeader(String name, int value) {
-    response.setIntHeader(name, value);
-  }
+    public void setHeader(String name, String value) {
+        response.setHeader(name, value);
+    }
 
-  public void setLocale(Locale locale) {
-    response.setLocale(locale);
-  }
+    public void setIntHeader(String name, int value) {
+        response.setIntHeader(name, value);
+    }
 
-  public void setStatus(int sc) {
-    response.setStatus(sc);
-  }
+    public void setLocale(Locale locale) {
+        response.setLocale(locale);
+    }
 
-  public void setStatus(int sc, String message) {
-    response.setStatus(sc, message);
-  }
+    public void setStatus(int sc) {
+        response.setStatus(sc);
+    }
 
-  public int getStatus() {
-    return 0;
-  }
+    public void setStatus(int sc, String message) {
+        response.setStatus(sc, message);
+    }
 
-  public String getHeader(String name) {
-    return null;
-  }
+    public int getStatus() {
+        return 0;
+    }
 
-  public Collection<String> getHeaders(String name) {
-    return null;
-  }
+    public String getHeader(String name) {
+        return null;
+    }
 
-  public Collection<String> getHeaderNames() {
-    return null;
-  }
+    public Collection<String> getHeaders(String name) {
+        return null;
+    }
+
+    public Collection<String> getHeaderNames() {
+        return null;
+    }
 }
