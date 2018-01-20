@@ -1,7 +1,7 @@
 package me.w1992wishes.tomcatwork.simple_tomcat_04.startup;
 
-import me.w1992wishes.tomcatwork.simple_tomcat_04.core.SimpleContainer;
-import org.apache.catalina.connector.http.HttpConnector;
+import me.w1992wishes.tomcatwork.simple_tomcat_04.connector.http.HttpConnector;
+import me.w1992wishes.tomcatwork.simple_tomcat_04.container.SimpleContainer;
 
 /**
  * Created by wanqinfeng on 2017/2/8.
