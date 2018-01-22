@@ -106,19 +106,17 @@ public class HttpConnector  implements Connector, Lifecycle, Runnable {
     private HttpProcessor createProcessor() {
 
         synchronized (processors) {
+            //如果processors池中有，则直接返回
             if (processors.size() > 0) {
                 return ((HttpProcessor) processors.pop());
             }
+            //如果processors池中没有，则判断当前processors是否大于最大processors数，小于则新建
             if ((maxProcessors > 0) && (curProcessors < maxProcessors)) {
                 return (newProcessor());
             } else {
                 if (maxProcessors < 0) {
-                    // if (debug >= 2)
-                    // log("createProcessor: Creating new processor");
                     return (newProcessor());
                 } else {
-                    // if (debug >= 2)
-                    // log("createProcessor: Cannot create new processor");
                     return (null);
                 }
             }
@@ -146,13 +144,12 @@ public class HttpConnector  implements Connector, Lifecycle, Runnable {
 
     }
 
-
     @Override
     public void run() {
 
         // Loop until we receive a shutdown command
         while (!stopped){
-            // Accept the next incoming connection from the server socket
+            // 第一步，Accept the next incoming connection from the server socket
             Socket socket = null;
             try {
                 socket = serverSocket.accept();
@@ -180,8 +177,24 @@ public class HttpConnector  implements Connector, Lifecycle, Runnable {
                 continue;
             }
 
-            // Hand this socket off to an appropriate processor
+            // 第二步、Hand this socket off to an appropriate processor
             HttpProcessor processor = createProcessor();
+            if (processor == null) {
+                try {
+                    LOGGER.error("httpConnector.noProcessor");
+                    socket.close();
+                } catch (IOException e) {
+                    ;
+                }
+                continue;
+            }
+            processor.assign(socket);
+            // The processor will recycle itself when it finishes
+            processors.push(processor);
+        }
+
+        synchronized (threadSync) {
+            threadSync.notifyAll();
         }
 
     }
