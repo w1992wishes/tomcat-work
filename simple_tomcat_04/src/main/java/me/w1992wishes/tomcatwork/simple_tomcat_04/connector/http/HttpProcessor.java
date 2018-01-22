@@ -1,5 +1,7 @@
 package me.w1992wishes.tomcatwork.simple_tomcat_04.connector.http;
 
+import me.w1992wishes.tomcatwork.simple_tomcat_04.Lifecycle;
+import me.w1992wishes.tomcatwork.simple_tomcat_04.exception.LifecycleException;
 import me.w1992wishes.tomcatwork.simple_tomcat_04.processor.DefaultProcessor;
 import me.w1992wishes.tomcatwork.simple_tomcat_04.processor.Processor;
 import me.w1992wishes.tomcatwork.simple_tomcat_04.processor.ServletProcessor;
@@ -13,16 +15,23 @@ import java.io.OutputStream;
 import java.net.Socket;
 
 /* this class used to be called HttpServer */
-public class HttpProcessor {
+public class HttpProcessor implements Lifecycle, Runnable {
 
-    public HttpProcessor(HttpConnector connector) {
+    public HttpProcessor(HttpConnector connector, int id) {
         this.connector = connector;
+        this.id = id;
     }
 
     /**
      * The HttpConnector with which this processor is associated.
      */
     private HttpConnector connector = null;
+
+    /**
+     * The identifier of this processor, unique per connector.
+     */
+    private int id = 0;
+
     private HttpRequest request;
     private HttpRequestLine requestLine = new HttpRequestLine();
     private HttpResponse response;
@@ -284,4 +293,18 @@ public class HttpProcessor {
 
     }
 
+    @Override
+    public void run() {
+
+    }
+
+    @Override
+    public void start() throws LifecycleException {
+
+    }
+
+    @Override
+    public void stop() {
+
+    }
 }
