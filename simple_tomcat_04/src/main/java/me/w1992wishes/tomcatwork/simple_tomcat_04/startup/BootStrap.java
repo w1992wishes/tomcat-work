@@ -13,7 +13,9 @@ public final class BootStrap {
         connector.setContainer(container);
 
         try {
+            // initialize主要是open服务端socket，默认监听8080端口
             connector.initialize();
+            //start主要是将服务端监听的socket交给processor处理，其中processor添加了一个缓存池，避免了每次都创建一个processor
             connector.start();
 
             //make the application wait util we press any key

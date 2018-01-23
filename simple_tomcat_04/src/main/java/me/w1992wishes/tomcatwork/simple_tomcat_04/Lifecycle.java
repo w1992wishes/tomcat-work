@@ -65,7 +65,7 @@ public interface Lifecycle {
      * of type STOP_EVENT to any registered listeners.
      *
      */
-    public void stop();
+    public void stop() throws LifecycleException;
 
 
 }

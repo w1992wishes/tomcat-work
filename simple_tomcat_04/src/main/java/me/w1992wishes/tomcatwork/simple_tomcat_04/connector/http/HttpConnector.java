@@ -189,6 +189,7 @@ public class HttpConnector  implements Connector, Lifecycle, Runnable {
                 continue;
             }
             processor.assign(socket);
+
             // The processor will recycle itself when it finishes
             processors.push(processor);
         }
@@ -275,6 +276,32 @@ public class HttpConnector  implements Connector, Lifecycle, Runnable {
 
     }
 
+    /**
+     * Stop the background processing thread.
+     */
+    private void threadStop() {
+
+        LOGGER.info("httpConnector.stopping");
+
+        stopped = true;
+        try {
+            threadSync.wait(5000);
+        } catch (InterruptedException e) {
+            ;
+        }
+        thread = null;
+
+    }
+
+
+    /**
+     * Recycle the specified Processor so that it can be used again.
+     *
+     */
+    void recycle(HttpProcessor processor) {
+        processors.push(processor);
+    }
+
     @Override
     public void start() throws LifecycleException {
         if(started){
@@ -284,14 +311,50 @@ public class HttpConnector  implements Connector, Lifecycle, Runnable {
         threadName = "HttpConnector[" + port + "]";
         started = true;
 
-        // Start our background thread
+        // Start our background thread， 在一个独立线程中处理到达的连接
         threadStart();
 
-        // Create the specified minimum number of processors
+        // Create the specified minimum number of processors， 默认先创建最小数量的processor，放入空闲栈中
+        while (curProcessors < minProcessors) {
+            if ((maxProcessors > 0) && (curProcessors >= maxProcessors))
+                break;
+            HttpProcessor processor = newProcessor();
+            recycle(processor);
+        }
     }
 
     @Override
-    public void stop(){
+    public void stop() throws LifecycleException {
+        // Validate and update our current state
+        if (!started)
+            throw new LifecycleException("httpConnector.notStarted");
 
+        started = false;
+
+        // Gracefully shut down all processors we have created
+        for (int i = created.size() - 1; i >= 0; i--) {
+            HttpProcessor processor = (HttpProcessor) created.elementAt(i);
+            if (processor instanceof Lifecycle) {
+                try {
+                    ((Lifecycle) processor).stop();
+                } catch (LifecycleException e) {
+                    LOGGER.error("HttpConnector.stop", e);
+                }
+            }
+        }
+
+        synchronized (threadSync) {
+            // Close the server socket we were using
+            if (serverSocket != null) {
+                try {
+                    serverSocket.close();
+                } catch (IOException e) {
+                    ;
+                }
+            }
+            // Stop our background thread
+            threadStop();
+        }
+        serverSocket = null;
     }
 }

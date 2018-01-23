@@ -39,6 +39,17 @@ public class HttpProcessor implements Lifecycle, Runnable {
     protected String method = null;
     protected String queryString = null;
 
+    /**
+     * Is there a new socket available?
+     */
+    private boolean available = false;
+
+    /**
+     * The socket we are currently processing a request for.  This object
+     * is used for inter-thread communication only.
+     */
+    private Socket socket = null;
+
     public void process(Socket socket) {
         SocketInputStream input = null;
         OutputStream output = null;
@@ -305,6 +316,32 @@ public class HttpProcessor implements Lifecycle, Runnable {
 
     @Override
     public void stop() {
+
+    }
+
+    /**
+     * Process an incoming TCP/IP connection on the specified socket.  Any
+     * exception that occurs during processing must be logged and swallowed.
+     * <b>NOTE</b>:  This method is called from our Connector's thread.  We
+     * must assign it to our own thread so that multiple simultaneous
+     * requests can be handled.
+     *
+     * @param socket TCP socket to process
+     */
+    synchronized void assign(Socket socket) {
+
+        // Wait for the Processor to get the previous Socket
+        while (available) {
+            try {
+                wait();
+            } catch (InterruptedException e) {
+            }
+        }
+
+        // Store the newly available Socket and notify our thread
+        this.socket = socket;
+        available = true;
+        notifyAll();
 
     }
 }
