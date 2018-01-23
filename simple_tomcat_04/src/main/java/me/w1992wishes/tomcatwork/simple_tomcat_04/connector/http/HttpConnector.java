@@ -3,6 +3,7 @@ package me.w1992wishes.tomcatwork.simple_tomcat_04.connector.http;
 import me.w1992wishes.tomcatwork.simple_tomcat_04.Constants;
 import me.w1992wishes.tomcatwork.simple_tomcat_04.Lifecycle;
 import me.w1992wishes.tomcatwork.simple_tomcat_04.connector.Connector;
+import me.w1992wishes.tomcatwork.simple_tomcat_04.container.Container;
 import me.w1992wishes.tomcatwork.simple_tomcat_04.exception.LifecycleException;
 import me.w1992wishes.tomcatwork.simple_tomcat_04.net.DefaultServerSocketFactory;
 import me.w1992wishes.tomcatwork.simple_tomcat_04.net.ServerSocketFactory;
@@ -98,6 +99,11 @@ public class HttpConnector  implements Connector, Lifecycle, Runnable {
     private int curProcessors = 0;
 
     /**
+     * The Container used for processing requests received by this Connector.
+     */
+    protected Container container = null;
+
+    /**
      * Create (or allocate) and return an available processor for use in
      * processing a specific HTTP request, if possible.  If the maximum
      * allowed processors have already been created and are in use, return
@@ -191,7 +197,6 @@ public class HttpConnector  implements Connector, Lifecycle, Runnable {
             processor.assign(socket);
 
             // The processor will recycle itself when it finishes
-            processors.push(processor);
         }
 
         synchronized (threadSync) {
@@ -356,5 +361,24 @@ public class HttpConnector  implements Connector, Lifecycle, Runnable {
             threadStop();
         }
         serverSocket = null;
+    }
+
+    /**
+     * Return the Container used for processing requests received by this
+     * Connector.
+     */
+    public Container getContainer() {
+        return (container);
+    }
+
+
+    /**
+     * Set the Container used for processing requests received by this
+     * Connector.
+     *
+     * @param container The new Container to use
+     */
+    public void setContainer(Container container) {
+        this.container = container;
     }
 }

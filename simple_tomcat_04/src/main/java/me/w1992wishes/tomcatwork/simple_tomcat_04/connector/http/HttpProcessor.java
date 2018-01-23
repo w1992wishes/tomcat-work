@@ -7,6 +7,8 @@ import me.w1992wishes.tomcatwork.simple_tomcat_04.processor.Processor;
 import me.w1992wishes.tomcatwork.simple_tomcat_04.processor.ServletProcessor;
 import me.w1992wishes.tomcatwork.simple_tomcat_04.processor.StaticResourceProcessor;
 import org.apache.catalina.util.RequestUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
@@ -16,6 +18,8 @@ import java.net.Socket;
 
 /* this class used to be called HttpServer */
 public class HttpProcessor implements Lifecycle, Runnable {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(HttpProcessor.class);
 
     public HttpProcessor(HttpConnector connector, int id) {
         this.connector = connector;
@@ -40,6 +44,11 @@ public class HttpProcessor implements Lifecycle, Runnable {
     protected String queryString = null;
 
     /**
+     * The shutdown signal to our background thread
+     */
+    private boolean stopped = false;
+
+    /**
      * Is there a new socket available?
      */
     private boolean available = false;
@@ -50,39 +59,40 @@ public class HttpProcessor implements Lifecycle, Runnable {
      */
     private Socket socket = null;
 
+    /**
+     * The thread synchronization object.
+     */
+    private Object threadSync = new Object();
+
     public void process(Socket socket) {
         SocketInputStream input = null;
         OutputStream output = null;
-        try {
-            input = new SocketInputStream(socket.getInputStream(), 2048);
-            output = socket.getOutputStream();
 
-            // create HttpRequest object and parse
-            request = new HttpRequest(input);
+        while (!stopped){
+            try {
+                input = new SocketInputStream(socket.getInputStream(), 2048);
+                output = socket.getOutputStream();
 
-            // create HttpResponse object
-            response = new HttpResponse(output);
-            response.setRequest(request);
+                // create HttpRequest object and parse
+                request = new HttpRequest(input);
 
-            response.setHeader("Server", "W1992wishes Servlet Container");
+                // create HttpResponse object
+                response = new HttpResponse(output);
+                response.setRequest(request);
 
-            parseRequest(input, output);
-            parseHeaders(input);
+                response.setHeader("Server", "W1992wishes Servlet Container");
 
-            //check if this is a request for a servlet or a static resource
-            //a request for a servlet begins with "/servlet/"
-            Processor servletProcessor = new ServletProcessor();
-            Processor staticProcessor = new StaticResourceProcessor();
-            Processor defaultProcessor = new DefaultProcessor();
-            staticProcessor.setProcessor(defaultProcessor);
-            servletProcessor.setProcessor(staticProcessor);
-            servletProcessor.process(request, response);
+                parseRequest(input, output);
+                parseHeaders(input);
 
-            // Close the socket
-            socket.close();
-            // no shutdown for this application
-        } catch (Exception e) {
-            e.printStackTrace();
+                connector.getContainer().invoke(request, response);
+
+                // Close the socket
+                socket.close();
+                // no shutdown for this application
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -304,10 +314,64 @@ public class HttpProcessor implements Lifecycle, Runnable {
 
     }
 
-    @Override
-    public void run() {
+    /**
+     * Await a newly assigned Socket from our Connector, or <code>null</code>
+     * if we are supposed to shut down.
+     */
+    private synchronized Socket await() {
+
+        // Wait for the Connector to provide a new Socket
+        while (!available) {
+            try {
+                wait();
+            } catch (InterruptedException e) {
+            }
+        }
+
+        // Notify the Connector that we have received this Socket
+        Socket socket = this.socket;
+        available = false;
+        notifyAll();
+
+        LOGGER.info("The incoming request has been awaited");
+
+        return (socket);
 
     }
+
+    /**
+     * The background thread that listens for incoming TCP/IP connections and
+     * hands them off to an appropriate processor.
+     */
+    public void run() {
+
+        // Process requests until we receive a shutdown signal
+        while (!stopped) {
+
+            // Wait for the next socket to be assigned
+            Socket socket = await();
+            if (socket == null)
+                continue;
+
+            // Process the request from this socket
+            try {
+                process(socket);
+            } catch (Throwable t) {
+                LOGGER.error("process.invoke", t);
+            }
+
+            // Finish up this request
+            connector.recycle(this);
+
+        }
+
+        // Tell threadStop() we have shut ourselves down successfully
+        synchronized (threadSync) {
+            threadSync.notifyAll();
+        }
+
+    }
+
 
     @Override
     public void start() throws LifecycleException {

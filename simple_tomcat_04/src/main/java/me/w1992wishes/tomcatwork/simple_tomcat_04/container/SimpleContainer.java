@@ -1,14 +1,15 @@
 package me.w1992wishes.tomcatwork.simple_tomcat_04.container;
 
-import javax.servlet.Servlet;
+import me.w1992wishes.tomcatwork.simple_tomcat_04.connector.http.HttpRequest;
+import me.w1992wishes.tomcatwork.simple_tomcat_04.connector.http.HttpResponse;
+import me.w1992wishes.tomcatwork.simple_tomcat_04.processor.DefaultProcessor;
+import me.w1992wishes.tomcatwork.simple_tomcat_04.processor.Processor;
+import me.w1992wishes.tomcatwork.simple_tomcat_04.processor.ServletProcessor;
+import me.w1992wishes.tomcatwork.simple_tomcat_04.processor.StaticResourceProcessor;
+
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
-import java.net.URL;
-import java.net.URLClassLoader;
-import java.net.URLStreamHandler;
 
 /**
  * Created by wanqinfeng on 2017/2/8.
@@ -19,34 +20,15 @@ public class SimpleContainer implements Container{
 
     public SimpleContainer(){}
 
-    public void invoke(Request request, Response response) throws IOException, ServletException {
-        String servletName = ((HttpServletRequest) request).getRequestURI();
-        servletName = servletName.substring(servletName.lastIndexOf("/") + 1);
-        URLClassLoader loader = null;
-
-        URL[] urls = new URL[1];
-        URLStreamHandler streamHandler = null;
-        File classPath = new File(WEB_ROOT);
-        String repository = (new URL("file", null, classPath.getCanonicalPath() + File.separator) ).toString();
-        urls[0] = new URL(null, repository, streamHandler);
-        loader = new URLClassLoader(urls);
-
-        Class myClass = null;
-        try {
-            myClass = loader.loadClass(servletName);
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-
-        Servlet servlet = null;
-        try {
-            servlet = (Servlet) myClass.newInstance();
-            servlet.service((HttpServletRequest)request, (HttpServletResponse)response);
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        }
+    public void invoke(HttpRequest request, HttpResponse response) throws IOException, ServletException {
+        //check if this is a request for a servlet or a static resource
+        //a request for a servlet begins with "/servlet/"
+        Processor servletProcessor = new ServletProcessor();
+        Processor staticProcessor = new StaticResourceProcessor();
+        Processor defaultProcessor = new DefaultProcessor();
+        staticProcessor.setProcessor(defaultProcessor);
+        servletProcessor.setProcessor(staticProcessor);
+        servletProcessor.process(request, response);
     }
 
 }
