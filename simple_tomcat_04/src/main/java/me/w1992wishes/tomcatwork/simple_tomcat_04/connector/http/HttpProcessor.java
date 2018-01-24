@@ -2,10 +2,6 @@ package me.w1992wishes.tomcatwork.simple_tomcat_04.connector.http;
 
 import me.w1992wishes.tomcatwork.simple_tomcat_04.Lifecycle;
 import me.w1992wishes.tomcatwork.simple_tomcat_04.exception.LifecycleException;
-import me.w1992wishes.tomcatwork.simple_tomcat_04.processor.DefaultProcessor;
-import me.w1992wishes.tomcatwork.simple_tomcat_04.processor.Processor;
-import me.w1992wishes.tomcatwork.simple_tomcat_04.processor.ServletProcessor;
-import me.w1992wishes.tomcatwork.simple_tomcat_04.processor.StaticResourceProcessor;
 import org.apache.catalina.util.RequestUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,6 +20,7 @@ public class HttpProcessor implements Lifecycle, Runnable {
     public HttpProcessor(HttpConnector connector, int id) {
         this.connector = connector;
         this.id = id;
+        this.threadName = "HttpProcessor[" + connector.getPort() + "][" + id + "]";
     }
 
     /**
@@ -40,8 +37,10 @@ public class HttpProcessor implements Lifecycle, Runnable {
     private HttpRequestLine requestLine = new HttpRequestLine();
     private HttpResponse response;
 
-    protected String method = null;
-    protected String queryString = null;
+    /**
+     * Has this component been started yet?
+     */
+    private boolean started = false;
 
     /**
      * The shutdown signal to our background thread
@@ -64,36 +63,52 @@ public class HttpProcessor implements Lifecycle, Runnable {
      */
     private Object threadSync = new Object();
 
+    /**
+     * The background thread.
+     */
+    private Thread thread = null;
+
+
+    /**
+     * The name to register for the background thread.
+     */
+    private String threadName = null;
+
+
     public void process(Socket socket) {
         SocketInputStream input = null;
         OutputStream output = null;
 
-        while (!stopped){
-            try {
-                input = new SocketInputStream(socket.getInputStream(), 2048);
-                output = socket.getOutputStream();
+        try {
+            input = new SocketInputStream(socket.getInputStream(), 2048);
+            output = socket.getOutputStream();
 
-                // create HttpRequest object and parse
-                request = new HttpRequest(input);
+            // create HttpRequest object and parse
+            request = new HttpRequest(input);
 
-                // create HttpResponse object
-                response = new HttpResponse(output);
-                response.setRequest(request);
+            // create HttpResponse object
+            response = new HttpResponse(output);
+            response.setRequest(request);
 
-                response.setHeader("Server", "W1992wishes Servlet Container");
+            response.setHeader("Server", "W1992wishes Servlet Container");
 
-                parseRequest(input, output);
-                parseHeaders(input);
+            parseRequest(input, output);
+            parseHeaders(input);
 
-                connector.getContainer().invoke(request, response);
+            connector.getContainer().invoke(request, response);
 
-                // Close the socket
-                socket.close();
-                // no shutdown for this application
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+
+        // Close the socket
+        try {
+            socket.close();
+        } catch (IOException e) {
+            ;
+        }
+
+        socket = null;
     }
 
     /**
@@ -350,8 +365,9 @@ public class HttpProcessor implements Lifecycle, Runnable {
 
             // Wait for the next socket to be assigned
             Socket socket = await();
-            if (socket == null)
+            if (socket == null) {
                 continue;
+            }
 
             // Process the request from this socket
             try {
@@ -372,15 +388,56 @@ public class HttpProcessor implements Lifecycle, Runnable {
 
     }
 
+    /**
+     * Start the background processing thread.
+     */
+    private void threadStart() {
 
-    @Override
-    public void start() throws LifecycleException {
+        LOGGER.info("httpProcessor.starting");
+
+        thread = new Thread(this, threadName);
+        thread.setDaemon(true);
+        thread.start();
 
     }
 
-    @Override
-    public void stop() {
+    /**
+     * Stop the background processing thread.
+     */
+    private void threadStop() {
+        LOGGER.info("httpProcessor.stopping");
+        stopped = true;
+        assign(null);
 
+        synchronized (threadSync) {
+            try {
+                threadSync.wait(5000);
+            } catch (InterruptedException e) {
+                ;
+            }
+        }
+
+        thread = null;
+    }
+
+    @Override
+    public void start() throws LifecycleException {
+        if (started) {
+            throw new LifecycleException("httpProcessor.alreadyStarted");
+        }
+        started = true;
+
+        threadStart();
+    }
+
+    @Override
+    public void stop() throws LifecycleException {
+        if (!started) {
+            throw new LifecycleException("httpProcessor.notStarted");
+        }
+        started = false;
+
+        threadStop();
     }
 
     /**

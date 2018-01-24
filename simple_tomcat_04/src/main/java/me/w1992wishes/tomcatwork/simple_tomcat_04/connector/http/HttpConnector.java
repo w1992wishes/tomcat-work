@@ -381,4 +381,11 @@ public class HttpConnector  implements Connector, Lifecycle, Runnable {
     public void setContainer(Container container) {
         this.container = container;
     }
+
+    /**
+     * Return the port number on which we listen for HTTP requests.
+     */
+    public int getPort() {
+        return (this.port);
+    }
 }
