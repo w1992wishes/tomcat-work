@@ -2,7 +2,7 @@ package me.w1992wishes.tomcatwork.simple_tomcat_04.connector.http;
 
 import me.w1992wishes.tomcatwork.simple_tomcat_04.Lifecycle;
 import me.w1992wishes.tomcatwork.simple_tomcat_04.exception.LifecycleException;
-import org.apache.catalina.util.RequestUtil;
+import me.w1992wishes.tomcatwork.simple_tomcat_04.util.RequestUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

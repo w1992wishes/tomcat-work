@@ -2,7 +2,6 @@ package me.w1992wishes.tomcatwork.simple_tomcat_04.connector;
 
 import me.w1992wishes.tomcatwork.simple_tomcat_04.Constants;
 import me.w1992wishes.tomcatwork.simple_tomcat_04.connector.http.HttpRequest;
-import org.apache.catalina.util.StringManager;
 
 import javax.servlet.ReadListener;
 import javax.servlet.ServletInputStream;
@@ -64,14 +63,6 @@ public class RequestStream
      */
     protected int length = -1;
 
-
-    /**
-     * The localized strings for this package.
-     */
-    protected static StringManager sm =
-            StringManager.getManager(Constants.PACKAGE);
-
-
     /**
      * The underlying input stream from which we should read data.
      */
@@ -90,7 +81,7 @@ public class RequestStream
     public void close() throws IOException {
 
         if (closed)
-            throw new IOException(sm.getString("requestStream.close.closed"));
+            throw new IOException("requestStream.close.closed");
 
         if (length > 0) {
             while (count < length) {
@@ -115,7 +106,7 @@ public class RequestStream
 
         // Has this stream been closed?
         if (closed)
-            throw new IOException(sm.getString("requestStream.read.closed"));
+            throw new IOException("requestStream.read.closed");
 
         // Have we read the specified content length already?
         if ((length >= 0) && (count >= length))

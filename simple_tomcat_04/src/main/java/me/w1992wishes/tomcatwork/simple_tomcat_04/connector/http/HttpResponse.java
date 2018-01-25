@@ -3,7 +3,7 @@ package me.w1992wishes.tomcatwork.simple_tomcat_04.connector.http;
 import me.w1992wishes.tomcatwork.simple_tomcat_04.Constants;
 import me.w1992wishes.tomcatwork.simple_tomcat_04.connector.ResponseStream;
 import me.w1992wishes.tomcatwork.simple_tomcat_04.connector.ResponseWriter;
-import org.apache.catalina.util.CookieTools;
+import me.w1992wishes.tomcatwork.simple_tomcat_04.util.CookieTools;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.Cookie;
