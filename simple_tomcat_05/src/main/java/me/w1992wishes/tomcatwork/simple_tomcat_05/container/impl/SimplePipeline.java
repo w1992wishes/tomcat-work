@@ -1,6 +1,10 @@
-package me.w1992wishes.tomcatwork.simple_tomcat_05.core;
+package me.w1992wishes.tomcatwork.simple_tomcat_05.container.impl;
 
+import me.w1992wishes.tomcatwork.simple_tomcat_05.container.*;
 import org.apache.catalina.*;
+import org.apache.catalina.Container;
+import org.apache.catalina.Valve;
+import org.apache.catalina.ValveContext;
 
 import javax.servlet.ServletException;
 import java.io.IOException;
@@ -8,41 +12,41 @@ import java.io.IOException;
 /**
  * Created by wanqinfeng on 2017/2/19.
  */
-public class SimplePipeline implements Pipeline{
+public class SimplePipeline implements me.w1992wishes.tomcatwork.simple_tomcat_05.container.Pipeline {
 
-    public SimplePipeline(Container container){
+    public SimplePipeline(me.w1992wishes.tomcatwork.simple_tomcat_05.container.Container container){
         setContainer(container);
     }
 
     //the basic Valve associated with this Pipeline
-    protected Valve basic = null;
+    protected me.w1992wishes.tomcatwork.simple_tomcat_05.container.Valve basic = null;
     //The Container with which this Pipeline is associated
-    protected Container container;
+    protected me.w1992wishes.tomcatwork.simple_tomcat_05.container.Container container;
     //the array of Valves
-    protected Valve valves[] = new Valve[0];
+    protected me.w1992wishes.tomcatwork.simple_tomcat_05.container.Valve valves[] = new me.w1992wishes.tomcatwork.simple_tomcat_05.container.Valve[0];
 
-    public void setContainer(Container container) {
+    public void setContainer(me.w1992wishes.tomcatwork.simple_tomcat_05.container.Container container) {
         this.container = container;
     }
 
     @Override
-    public Valve getBasic() {
+    public me.w1992wishes.tomcatwork.simple_tomcat_05.container.Valve getBasic() {
         return basic;
     }
 
     @Override
-    public void setBasic(Valve valve) {
+    public void setBasic(me.w1992wishes.tomcatwork.simple_tomcat_05.container.Valve valve) {
         this.basic = valve;
         ((Contained)valve).setContainer(container);
     }
 
     @Override
-    public void addValve(Valve valve) {
+    public void addValve(me.w1992wishes.tomcatwork.simple_tomcat_05.container.Valve valve) {
         if (valve instanceof Contained)
             ((Contained)valve).setContainer(this.container);
 
         synchronized (valves){
-            Valve results[] = new Valve[valves.length + 1];
+            me.w1992wishes.tomcatwork.simple_tomcat_05.container.Valve results[] = new me.w1992wishes.tomcatwork.simple_tomcat_05.container.Valve[valves.length + 1];
             System.arraycopy(valves,0,results,0,valves.length);
             results[valves.length] = valve;
             valves = results;
@@ -50,7 +54,7 @@ public class SimplePipeline implements Pipeline{
     }
 
     @Override
-    public Valve[] getValves() {
+    public me.w1992wishes.tomcatwork.simple_tomcat_05.container.Valve[] getValves() {
         return valves;
     }
 
@@ -61,13 +65,13 @@ public class SimplePipeline implements Pipeline{
     }
 
     @Override
-    public void removeValve(Valve valve) {
+    public void removeValve(me.w1992wishes.tomcatwork.simple_tomcat_05.container.Valve valve) {
 
     }
 
     //this class is copied from org.apache.catalina.core.StandardPipeline
     //class's StandardPipelineValveContext inner class
-    protected  class SimplePipelineValveContext implements ValveContext{
+    protected  class SimplePipelineValveContext implements me.w1992wishes.tomcatwork.simple_tomcat_05.container.ValveContext {
 
         protected int stage = 0;
 

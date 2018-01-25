@@ -1,10 +1,15 @@
 package me.w1992wishes.tomcatwork.simple_tomcat_05.valves;
 
-import org.apache.catalina.*;
+import me.w1992wishes.tomcatwork.simple_tomcat_05.connector.http.HttpRequest;
+import me.w1992wishes.tomcatwork.simple_tomcat_05.connector.http.HttpResponse;
+import me.w1992wishes.tomcatwork.simple_tomcat_05.container.Contained;
+import me.w1992wishes.tomcatwork.simple_tomcat_05.container.Container;
+import me.w1992wishes.tomcatwork.simple_tomcat_05.container.Valve;
+import me.w1992wishes.tomcatwork.simple_tomcat_05.container.ValveContext;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
-import java.io.IOException;
 
 /**
  * 用来将客服端的ip地址输出到控制台上
@@ -12,7 +17,9 @@ import java.io.IOException;
  */
 public class ClientIPLoggerValve implements Valve, Contained {
 
-    protected Container container;
+    private static final Logger LOGGER = LoggerFactory.getLogger(ClientIPLoggerValve.class);
+
+    private Container container;
 
     @Override
     public Container getContainer() {
@@ -26,16 +33,21 @@ public class ClientIPLoggerValve implements Valve, Contained {
 
     @Override
     public String getInfo() {
-        return null;
+        return "Client IP Logger Valve";
     }
 
     @Override
-    public void invoke(Request request, Response response, ValveContext valveContext) throws IOException, ServletException {
+    public void invoke(HttpRequest request, HttpResponse response, ValveContext valveContext){
+
         //pass this request on to the next valve in our pipeline
         valveContext.invokeNext(request, response);
-        System.out.println("Client IP Logger valve");
+
+        LOGGER.info("Client IP Logger valve");
+
         ServletRequest sreq = request.getRequest();
-        System.out.println(sreq.getRemoteAddr());
-        System.out.println("-------------------------------------");
+
+        LOGGER.info(sreq.getRemoteAddr());
+
+        LOGGER.info("-----------------Client IP Logger valve End--------------------");
     }
 }

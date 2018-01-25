@@ -1,41 +1,44 @@
 package me.w1992wishes.tomcatwork.simple_tomcat_05.startup;
 
-import me.w1992wishes.tomcatwork.simple_tomcat_05.core.SimpleLoader;
-import me.w1992wishes.tomcatwork.simple_tomcat_05.core.SimpleWrapper;
+import me.w1992wishes.tomcatwork.simple_tomcat_05.Loader;
+import me.w1992wishes.tomcatwork.simple_tomcat_05.connector.http.HttpConnector;
+import me.w1992wishes.tomcatwork.simple_tomcat_05.container.Pipeline;
+import me.w1992wishes.tomcatwork.simple_tomcat_05.container.Valve;
+import me.w1992wishes.tomcatwork.simple_tomcat_05.container.Wrapper;
+import me.w1992wishes.tomcatwork.simple_tomcat_05.container.impl.SimpleLoader;
+import me.w1992wishes.tomcatwork.simple_tomcat_05.container.impl.SimpleWrapper;
 import me.w1992wishes.tomcatwork.simple_tomcat_05.valves.ClientIPLoggerValve;
 import me.w1992wishes.tomcatwork.simple_tomcat_05.valves.HeaderLoggerValve;
-import org.apache.catalina.Loader;
-import org.apache.catalina.Pipeline;
-import org.apache.catalina.Valve;
-import org.apache.catalina.Wrapper;
-import org.apache.catalina.connector.http.HttpConnector;
 
 /**
  * Created by wanqinfeng on 2017/2/19.
  */
 public final class BootStrap1 {
     public static void main(String[] args) {
-        HttpConnector connector = new HttpConnector();
-        Wrapper wrapper = new SimpleWrapper();
-        wrapper.setServletClass("ModernServlet");
+
         Loader loader = new SimpleLoader();
+
         Valve valve1 = new HeaderLoggerValve();
         Valve valve2 = new ClientIPLoggerValve();
 
+        Wrapper wrapper = new SimpleWrapper();
+        wrapper.setServletClass("ModernServlet");
         wrapper.setLoader(loader);
         ((Pipeline)wrapper).addValve(valve1);
         ((Pipeline)wrapper).addValve(valve2);
 
+        HttpConnector connector = new HttpConnector();
         connector.setContainer(wrapper);
-
         try {
-            connector.initialize();//open serverSocket
-            connector.start();//wait connection and process
+            //open serverSocket
+            connector.initialize();
+            //wait connection and process
+            connector.start();
 
             //make the application wait until we pass a key
             System.in.read();
         }catch (Exception e){
-            e.printStackTrace();
+            throw new RuntimeException();
         }
     }
 }

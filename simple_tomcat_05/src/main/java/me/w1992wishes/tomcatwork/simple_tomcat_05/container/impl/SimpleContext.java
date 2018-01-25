@@ -1,4 +1,4 @@
-package me.w1992wishes.tomcatwork.simple_tomcat_05.core;
+package me.w1992wishes.tomcatwork.simple_tomcat_05.container.impl;
 
 import org.apache.catalina.*;
 import org.apache.catalina.deploy.*;
@@ -15,7 +15,7 @@ import java.util.HashMap;
  * servlet容器，可以包含多个servlet，对应可以包含多个Wrapper子容器
  * Created by wanqinfeng on 2017/2/22.
  */
-public class SimpleContext implements Context, Pipeline {
+public class SimpleContext implements Context, me.w1992wishes.tomcatwork.simple_tomcat_05.container.Pipeline {
 
     //构造方法中初始化context的基础阀
     public SimpleContext() {
@@ -28,7 +28,7 @@ public class SimpleContext implements Context, Pipeline {
     protected HashMap servletMappings = new HashMap();
     protected Mapper mapper = null;
     protected HashMap mappers = new HashMap();
-    private Container parent = null;
+    private me.w1992wishes.tomcatwork.simple_tomcat_05.container.Container parent = null;
 
     @Override
     public void invoke(Request request, Response response) throws IOException, ServletException {
@@ -36,7 +36,7 @@ public class SimpleContext implements Context, Pipeline {
     }
 
     @Override
-    public Container map(Request request, boolean update) {
+    public me.w1992wishes.tomcatwork.simple_tomcat_05.container.Container map(Request request, boolean update) {
         //this method is taken from the map method in org.apache.cataline.core.ContainerBase
         //the findMapper method always returns the default mapper, if any, regardless the
         //request's protocol
@@ -78,8 +78,8 @@ public class SimpleContext implements Context, Pipeline {
 
 
     @Override
-    public void addChild(Container child) {
-        child.setParent((Container) this);
+    public void addChild(me.w1992wishes.tomcatwork.simple_tomcat_05.container.Container child) {
+        child.setParent((me.w1992wishes.tomcatwork.simple_tomcat_05.container.Container) this);
         children.put(child.getName(), child);
     }
 
@@ -88,14 +88,14 @@ public class SimpleContext implements Context, Pipeline {
     public void addMapper(Mapper mapper) {
         // this method is adopted from addMapper in ContainerBase
         // the first mapper added becomes the default mapper
-        mapper.setContainer((Container) this);
+        mapper.setContainer((me.w1992wishes.tomcatwork.simple_tomcat_05.container.Container) this);
         this.mapper = mapper;
         synchronized (mappers) {
             if (mappers.get(mapper.getProtocol()) != null ) {
                 throw new IllegalArgumentException("addMapper:  Protocol '" +
                         mapper.getProtocol() + "' is not unique");
             }
-            mapper.setContainer((Container) this);
+            mapper.setContainer((me.w1992wishes.tomcatwork.simple_tomcat_05.container.Container) this);
             mappers.put(mapper.getProtocol(), mapper);
             if (mappers.size() == 1)
                 this.mapper = mapper;
@@ -105,19 +105,19 @@ public class SimpleContext implements Context, Pipeline {
     }
 
     @Override
-    public Container findChild(String name) {
+    public me.w1992wishes.tomcatwork.simple_tomcat_05.container.Container findChild(String name) {
         if (name == null)
             return null;
         synchronized (children) {
-            return ((Container) children.get(name));
+            return ((me.w1992wishes.tomcatwork.simple_tomcat_05.container.Container) children.get(name));
         }
     }
 
     @Override
-    public Container[] findChildren() {
+    public me.w1992wishes.tomcatwork.simple_tomcat_05.container.Container[] findChildren() {
         synchronized (children) {
-            Container results[] = new Container[children.size()];
-            return ((Container[]) children.values().toArray(results));
+            me.w1992wishes.tomcatwork.simple_tomcat_05.container.Container results[] = new me.w1992wishes.tomcatwork.simple_tomcat_05.container.Container[children.size()];
+            return ((me.w1992wishes.tomcatwork.simple_tomcat_05.container.Container[]) children.values().toArray(results));
         }
     }
 
@@ -134,27 +134,27 @@ public class SimpleContext implements Context, Pipeline {
     }
 
     @Override
-    public Valve getBasic() {
+    public me.w1992wishes.tomcatwork.simple_tomcat_05.container.Valve getBasic() {
         return pipeline.getBasic();
     }
 
     @Override
-    public void setBasic(Valve valve) {
+    public void setBasic(me.w1992wishes.tomcatwork.simple_tomcat_05.container.Valve valve) {
         pipeline.setBasic(valve);
     }
 
     @Override
-    public synchronized void addValve(Valve valve) {
+    public synchronized void addValve(me.w1992wishes.tomcatwork.simple_tomcat_05.container.Valve valve) {
         pipeline.addValve(valve);
     }
 
     @Override
-    public Valve[] getValves() {
+    public me.w1992wishes.tomcatwork.simple_tomcat_05.container.Valve[] getValves() {
         return pipeline.getValves();
     }
 
     @Override
-    public void removeValve(Valve valve) {
+    public void removeValve(me.w1992wishes.tomcatwork.simple_tomcat_05.container.Valve valve) {
         pipeline.removeValve(valve);
     }
 
@@ -259,7 +259,7 @@ public class SimpleContext implements Context, Pipeline {
     }
 
     @Override
-    public Wrapper createWrapper() {
+    public me.w1992wishes.tomcatwork.simple_tomcat_05.container.Wrapper createWrapper() {
         return null;
     }
 
@@ -769,7 +769,7 @@ public class SimpleContext implements Context, Pipeline {
     }
 
     @Override
-    public Container getParent() {
+    public me.w1992wishes.tomcatwork.simple_tomcat_05.container.Container getParent() {
         return null;
     }
 
@@ -789,7 +789,7 @@ public class SimpleContext implements Context, Pipeline {
     }
 
     @Override
-    public void removeChild(Container container) {
+    public void removeChild(me.w1992wishes.tomcatwork.simple_tomcat_05.container.Container container) {
 
     }
 
@@ -829,7 +829,7 @@ public class SimpleContext implements Context, Pipeline {
     }
 
     @Override
-    public void setParent(Container container) {
+    public void setParent(me.w1992wishes.tomcatwork.simple_tomcat_05.container.Container container) {
 
     }
 

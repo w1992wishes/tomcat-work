@@ -40,12 +40,6 @@
             <artifactId>javax.servlet-api</artifactId>
             <version>3.1.0</version>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/tomcat/catalina -->
-        <dependency>
-            <groupId>tomcat</groupId>
-            <artifactId>catalina</artifactId>
-            <version>4.0.4</version>
-        </dependency>
     </dependencies>
 
     <build>

@@ -1,6 +1,4 @@
-package me.w1992wishes.tomcatwork.simple_tomcat_05.core;
-
-import org.apache.catalina.*;
+package me.w1992wishes.tomcatwork.simple_tomcat_05.container.impl;
 
 import javax.servlet.Servlet;
 import javax.servlet.ServletException;
@@ -14,17 +12,17 @@ import java.io.IOException;
  * 基础阀
  * Created by wanqinfeng on 2017/2/19.
  */
-public class SimpleWrapperValve implements Valve, Contained {
+public class SimpleWrapperValve implements me.w1992wishes.tomcatwork.simple_tomcat_05.container.Valve, Contained {
 
-    protected Container container;
+    protected me.w1992wishes.tomcatwork.simple_tomcat_05.container.Container container;
 
     @Override
-    public Container getContainer() {
+    public me.w1992wishes.tomcatwork.simple_tomcat_05.container.Container getContainer() {
         return container;
     }
 
     @Override
-    public void setContainer(Container container) {
+    public void setContainer(me.w1992wishes.tomcatwork.simple_tomcat_05.container.Container container) {
         this.container = container;
     }
 
@@ -34,7 +32,7 @@ public class SimpleWrapperValve implements Valve, Contained {
     }
 
     @Override
-    public void invoke(Request request, Response response, ValveContext valveContext) throws IOException, ServletException {
+    public void invoke(Request request, Response response, me.w1992wishes.tomcatwork.simple_tomcat_05.container.ValveContext valveContext) throws IOException, ServletException {
         SimpleWrapper wrapper = (SimpleWrapper) getContainer();
         ServletRequest sreq = request.getRequest();
         ServletResponse sres = response.getResponse();
