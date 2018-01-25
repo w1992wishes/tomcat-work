@@ -27,7 +27,6 @@ public class HttpConnector  implements Connector, Lifecycle, Runnable {
      */
     private boolean initialized = false;
 
-
     /**
      * Has this component been started yet?
      */
@@ -86,7 +85,6 @@ public class HttpConnector  implements Connector, Lifecycle, Runnable {
      * The minimum number of processors to start at initialization time.
      */
     protected int minProcessors = 5;
-
 
     /**
      * The maximum number of processors allowed, or <0 for unlimited.
@@ -148,6 +146,14 @@ public class HttpConnector  implements Connector, Lifecycle, Runnable {
         created.addElement(processor);
         return (processor);
 
+    }
+
+    /**
+     * Recycle the specified Processor so that it can be used again.
+     *
+     */
+    void recycle(HttpProcessor processor) {
+        processors.push(processor);
     }
 
     @Override
@@ -298,15 +304,6 @@ public class HttpConnector  implements Connector, Lifecycle, Runnable {
 
     }
 
-
-    /**
-     * Recycle the specified Processor so that it can be used again.
-     *
-     */
-    void recycle(HttpProcessor processor) {
-        processors.push(processor);
-    }
-
     @Override
     public void start() throws LifecycleException {
         if(started){
@@ -370,7 +367,6 @@ public class HttpConnector  implements Connector, Lifecycle, Runnable {
     public Container getContainer() {
         return (container);
     }
-
 
     /**
      * Set the Container used for processing requests received by this

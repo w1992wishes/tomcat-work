@@ -12,7 +12,6 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.net.Socket;
 
-/* this class used to be called HttpServer */
 public class HttpProcessor implements Lifecycle, Runnable {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(HttpProcessor.class);
@@ -68,12 +67,10 @@ public class HttpProcessor implements Lifecycle, Runnable {
      */
     private Thread thread = null;
 
-
     /**
      * The name to register for the background thread.
      */
     private String threadName = null;
-
 
     public void process(Socket socket) {
         SocketInputStream input = null;
@@ -98,7 +95,7 @@ public class HttpProcessor implements Lifecycle, Runnable {
             connector.getContainer().invoke(request, response);
 
         } catch (Exception e) {
-            e.printStackTrace();
+            LOGGER.error("", e);
         }
 
         // Close the socket
@@ -168,7 +165,6 @@ public class HttpProcessor implements Lifecycle, Runnable {
             }
         } //end while
     }
-
 
     private void parseRequest(SocketInputStream input, OutputStream output)
             throws IOException, ServletException {

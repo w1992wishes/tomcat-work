@@ -2,9 +2,7 @@ package me.w1992wishes.tomcatwork.simple_tomcat_04.connector.http;
 
 final class HttpRequestLine {
 
-
     // -------------------------------------------------------------- Constants
-
 
     public static final int INITIAL_METHOD_SIZE = 8;
     public static final int INITIAL_URI_SIZE = 64;
@@ -13,9 +11,7 @@ final class HttpRequestLine {
     public static final int MAX_URI_SIZE = 32768;
     public static final int MAX_PROTOCOL_SIZE = 1024;
 
-
     // ----------------------------------------------------------- Constructors
-
 
     public HttpRequestLine() {
 
@@ -23,7 +19,6 @@ final class HttpRequestLine {
              new char[INITIAL_PROTOCOL_SIZE], 0);
 
     }
-
 
     public HttpRequestLine(char[] method, int methodEnd,
                            char[] uri, int uriEnd,
@@ -38,9 +33,7 @@ final class HttpRequestLine {
 
     }
 
-
     // ----------------------------------------------------- Instance Variables
-
 
     public char[] method;
     public int methodEnd;
@@ -49,12 +42,9 @@ final class HttpRequestLine {
     public char[] protocol;
     public int protocolEnd;
 
-
     // ------------------------------------------------------------- Properties
 
-
     // --------------------------------------------------------- Public Methods
-
 
     /**
      * Release all object references, and initialize instance variables, in
@@ -68,14 +58,12 @@ final class HttpRequestLine {
 
     }
 
-
     /**
      * Test if the uri includes the given char array.
      */
     public int indexOf(char[] buf) {
         return indexOf(buf, buf.length);
     }
-
 
     /**
      * Test if the value of the header includes the given char array.
@@ -100,14 +88,12 @@ final class HttpRequestLine {
         return -1;
     }
 
-
     /**
      * Test if the value of the header includes the given string.
      */
     public int indexOf(String str) {
         return indexOf(str.toCharArray(), str.length());
     }
-
 
     /**
      * Returns the index of a character in the value.
@@ -120,19 +106,15 @@ final class HttpRequestLine {
         return -1;
     }
 
-
     // --------------------------------------------------------- Object Methods
-
 
     public int hashCode() {
         // FIXME
         return 0;
     }
 
-
     public boolean equals(Object obj) {
         return false;
     }
-
 
 }

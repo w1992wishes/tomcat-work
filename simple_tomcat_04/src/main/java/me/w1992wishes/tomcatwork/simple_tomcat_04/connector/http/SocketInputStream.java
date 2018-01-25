@@ -12,72 +12,59 @@ import java.io.InputStream;
  */
 public class SocketInputStream extends InputStream {
 
-
     // -------------------------------------------------------------- Constants
-
 
     /**
      * CR.
      */
     private static final byte CR = (byte) '\r';
 
-
     /**
      * LF.
      */
     private static final byte LF = (byte) '\n';
-
 
     /**
      * SP.
      */
     private static final byte SP = (byte) ' ';
 
-
     /**
      * HT.
      */
     private static final byte HT = (byte) '\t';
-
 
     /**
      * COLON.
      */
     private static final byte COLON = (byte) ':';
 
-
     /**
      * Lower case offset.
      */
     private static final int LC_OFFSET = 'A' - 'a';
-
 
     /**
      * Internal buffer.
      */
     protected byte buf[];
 
-
     /**
      * Last valid byte.
      */
     protected int count;
-
 
     /**
      * Position in the buffer.
      */
     protected int pos;
 
-
     /**
      * Underlying input stream.
      */
     protected InputStream is;
 
-
     // ----------------------------------------------------------- Constructors
-
 
     /**
      * Construct a servlet input stream associated with the specified socket
@@ -93,15 +80,7 @@ public class SocketInputStream extends InputStream {
 
     }
 
-
-    // -------------------------------------------------------------- Variables
-
-
-    // ----------------------------------------------------- Instance Variables
-
-
     // --------------------------------------------------------- Public Methods
-
 
     /**
      * Read the request line, and copies it to the given buffer. This
@@ -268,7 +247,6 @@ public class SocketInputStream extends InputStream {
         requestLine.protocolEnd = readCount;
 
     }
-
 
     /**
      * Read a header, and copies it to the given buffer. This
@@ -448,7 +426,6 @@ public class SocketInputStream extends InputStream {
 
     }
 
-
     /**
      * Read byte.
      */
@@ -461,29 +438,6 @@ public class SocketInputStream extends InputStream {
         }
         return buf[pos++] & 0xff;
     }
-
-
-    /**
-     *
-     */
-    /*
-    public int read(byte b[], int off, int len)
-        throws IOException {
-
-    }
-    */
-
-
-    /**
-     *
-     */
-    /*
-    public long skip(long n)
-        throws IOException {
-
-    }
-    */
-
 
     /**
      * Returns the number of bytes that can be read from this input
@@ -507,9 +461,7 @@ public class SocketInputStream extends InputStream {
         buf = null;
     }
 
-
     // ------------------------------------------------------ Protected Methods
-
 
     /**
      * Fill the internal buffer using data from the undelying input stream.
@@ -523,6 +475,5 @@ public class SocketInputStream extends InputStream {
             count = nRead;
         }
     }
-
 
 }

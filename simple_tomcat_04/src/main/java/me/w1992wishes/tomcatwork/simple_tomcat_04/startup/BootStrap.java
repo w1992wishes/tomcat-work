@@ -21,7 +21,7 @@ public final class BootStrap {
             //make the application wait util we press any key
             System.in.read();
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
     }
 }
