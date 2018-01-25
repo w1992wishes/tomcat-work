@@ -15,9 +15,9 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 import me.w1992wishes.tomcatwork.simple_tomcat_03.connector.RequestStream;
-import org.apache.catalina.util.Enumerator;
-import org.apache.catalina.util.ParameterMap;
-import org.apache.catalina.util.RequestUtil;
+import me.w1992wishes.tomcatwork.simple_tomcat_03.util.Enumerator;
+import me.w1992wishes.tomcatwork.simple_tomcat_03.util.ParameterMap;
+import me.w1992wishes.tomcatwork.simple_tomcat_03.util.RequestUtil;
 
 public class HttpRequest implements HttpServletRequest {
 

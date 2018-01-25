@@ -10,7 +10,7 @@ import me.w1992wishes.tomcatwork.simple_tomcat_03.processor.DefaultProcessor;
 import me.w1992wishes.tomcatwork.simple_tomcat_03.processor.Processor;
 import me.w1992wishes.tomcatwork.simple_tomcat_03.processor.ServletProcessor;
 import me.w1992wishes.tomcatwork.simple_tomcat_03.processor.StaticResourceProcessor;
-import org.apache.catalina.util.RequestUtil;
+import me.w1992wishes.tomcatwork.simple_tomcat_03.util.RequestUtil;
 
 /* this class used to be called HttpServer */
 public class HttpProcessor {

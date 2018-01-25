@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import me.w1992wishes.tomcatwork.simple_tomcat_03.connector.ResponseStream;
 import me.w1992wishes.tomcatwork.simple_tomcat_03.connector.ResponseWriter;
-import org.apache.catalina.util.CookieTools;
+import me.w1992wishes.tomcatwork.simple_tomcat_03.util.CookieTools;
 
 public class HttpResponse implements HttpServletResponse {
 
