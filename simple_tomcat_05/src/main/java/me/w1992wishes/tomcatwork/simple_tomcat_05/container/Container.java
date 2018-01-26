@@ -1,5 +1,6 @@
 package me.w1992wishes.tomcatwork.simple_tomcat_05.container;
 
+import me.w1992wishes.tomcatwork.simple_tomcat_05.ContainerListener;
 import me.w1992wishes.tomcatwork.simple_tomcat_05.Loader;
 import me.w1992wishes.tomcatwork.simple_tomcat_05.connector.http.HttpRequest;
 import me.w1992wishes.tomcatwork.simple_tomcat_05.connector.http.HttpResponse;
@@ -12,12 +13,22 @@ import java.io.IOException;
  */
 public interface Container {
 
+    String ADD_CHILD_EVENT = "addChild";
+
+    String ADD_VALVE_EVENT = "addValve";
+
+    String REMOVE_CHILD_EVENT = "removeChild";
+
+    String REMOVE_VALVE_EVENT = "removeValve";
+
+    String ADD_MAPPER_EVENT = "addMapper";
+
     /**
      * Process the specified Request, and generate the corresponding Response,
      * according to the design of this particular Container.
      *
      */
-    void invoke(HttpRequest request, HttpResponse response);
+    void invoke(HttpRequest request, HttpResponse response) throws ServletException, IOException;
 
     /**
      * Return the Loader with which this Container is associated.  If there is
@@ -51,61 +62,44 @@ public interface Container {
     String getName();
 
     /**
-     * Return the Container for which this Container is a child, if there is
-     * one.  If there is no defined parent, return <code>null</code>.
-     */
-    Container getParent();
-
-    /**
-     * Set the parent Container to which this Container is being added as a
-     * child.  This Container may refuse to become attached to the specified
-     * Container by throwing an exception.
-     *
-     * @param container Container to which this Container is being added
-     *  as a child
-     *
-     */
-    void setParent(Container container);
-
-    /**
-     * Add a new child Container to those associated with this Container,
-     * if supported.  Prior to adding this Container to the set of children,
-     * the child's <code>setParent()</code> method must be called, with this
-     * Container as an argument.  This method may thrown an
-     * <code>IllegalArgumentException</code> if this Container chooses not
-     * to be attached to the specified Container, in which case it is not added
-     *
-     * @param child New child Container to be added
-     */
-    void addChild(Container child);
-
-    /**
-     * Return the child Container, associated with this Container, with
-     * the specified name (if any); otherwise, return <code>null</code>
-     *
-     * @param name Name of the child Container to be retrieved
-     */
-    Container findChild(String name);
-
-    /**
-     * Return the set of children Containers associated with this Container.
-     * If this Container has no children, a zero-length array is returned.
-     */
-    Container[] findChildren();
-
-    /**
-     * Remove an existing child Container from association with this parent
-     * Container.
-     *
-     * @param child Existing child Container to be removed
-     */
-    void removeChild(Container child);
-
-    /**
      * Return descriptive information about this Container implementation and
      * the corresponding version number, in the format
      * <code>&lt;description&gt;/&lt;version&gt;</code>.
      */
     String getInfo();
+
+    Container getParent();
+
+    void setParent(Container container);
+
+    void addChild(Container child);
+
+    Container findChild(String name);
+
+    Container[] findChildren();
+
+    void removeChild(Container child);
+
+    void addMapper(Mapper mapper);
+
+    Mapper findMapper(String protocol);
+
+    Mapper[] findMappers();
+
+    /**
+     * Return the child Container that should be used to process this Request,
+     * based upon its characteristics.  If no such child Container can be
+     * identified, return <code>null</code> instead.
+     *
+     * @param request Request being processed
+     * @param update Update the Request to reflect the mapping selection?
+     */
+    Container map(HttpRequest request, boolean update);
+
+    void addContainerListener(ContainerListener listener);
+
+    ContainerListener[] findContainerListeners();
+
+    void removeContainerListener(ContainerListener listener);
 
 }

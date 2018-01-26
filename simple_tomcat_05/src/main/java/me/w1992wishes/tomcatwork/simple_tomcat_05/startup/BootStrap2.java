@@ -1,13 +1,14 @@
 package me.w1992wishes.tomcatwork.simple_tomcat_05.startup;
 
+import me.w1992wishes.tomcatwork.simple_tomcat_05.Loader;
+import me.w1992wishes.tomcatwork.simple_tomcat_05.connector.http.HttpConnector;
+import me.w1992wishes.tomcatwork.simple_tomcat_05.container.*;
 import me.w1992wishes.tomcatwork.simple_tomcat_05.container.impl.SimpleContext;
 import me.w1992wishes.tomcatwork.simple_tomcat_05.container.impl.SimpleContextMapper;
 import me.w1992wishes.tomcatwork.simple_tomcat_05.container.impl.SimpleLoader;
 import me.w1992wishes.tomcatwork.simple_tomcat_05.container.impl.SimpleWrapper;
 import me.w1992wishes.tomcatwork.simple_tomcat_05.valves.ClientIPLoggerValve;
 import me.w1992wishes.tomcatwork.simple_tomcat_05.valves.HeaderLoggerValve;
-import org.apache.catalina.*;
-import org.apache.catalina.connector.http.HttpConnector;
 
 /**
  * Created by wanqinfeng on 2017/2/22.

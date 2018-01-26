@@ -9,8 +9,10 @@ import me.w1992wishes.tomcatwork.simple_tomcat_05.container.ValveContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 import java.util.Enumeration;
 
 /**
@@ -39,7 +41,7 @@ public class HeaderLoggerValve implements Valve, Contained {
     }
 
     @Override
-    public void invoke(HttpRequest request, HttpResponse response, ValveContext valveContext){
+    public void invoke(HttpRequest request, HttpResponse response, ValveContext valveContext) throws ServletException, IOException {
 
         //pass this request on to the next valve in our pipeline
         valveContext.invokeNext(request, response);

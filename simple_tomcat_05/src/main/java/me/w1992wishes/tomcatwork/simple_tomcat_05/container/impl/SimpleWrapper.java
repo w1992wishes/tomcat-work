@@ -1,13 +1,9 @@
 package me.w1992wishes.tomcatwork.simple_tomcat_05.container.impl;
 
 import me.w1992wishes.tomcatwork.simple_tomcat_05.Loader;
-import me.w1992wishes.tomcatwork.simple_tomcat_05.connector.http.HttpRequest;
-import me.w1992wishes.tomcatwork.simple_tomcat_05.connector.http.HttpResponse;
 import me.w1992wishes.tomcatwork.simple_tomcat_05.container.Container;
 import me.w1992wishes.tomcatwork.simple_tomcat_05.container.ContainerBase;
-import me.w1992wishes.tomcatwork.simple_tomcat_05.container.Valve;
 import me.w1992wishes.tomcatwork.simple_tomcat_05.container.Wrapper;
-import me.w1992wishes.tomcatwork.simple_tomcat_05.exception.LifecycleException;
 
 import javax.servlet.Servlet;
 import javax.servlet.ServletException;
@@ -21,80 +17,9 @@ public class SimpleWrapper extends ContainerBase implements Wrapper {
     // the servlet instance
     private Servlet instance = null;
     private String servletClass;
-    private Loader loader;
-    private String name;
-    protected Container parent = null;
-    //每个容器都有一个pipeline
-    private SimplePipeline pipeline = new SimplePipeline(this);
 
     public SimpleWrapper(){
-        pipeline.setBasic(new SimpleWrapperValve());
-    }
-
-    @Override
-    public void invoke(HttpRequest request, HttpResponse response){
-        pipeline.invoke(request, response);
-    }
-
-    @Override
-    public void load() throws ServletException {
-        instance = loadServlet();
-    }
-
-    @Override
-    public void setBasic(Valve valve) {
-        pipeline.setBasic(valve);
-    }
-
-    @Override
-    public Valve getBasic() {
-        return pipeline.getBasic();
-    }
-
-    @Override
-    public Valve[] getValves() {
-        return pipeline.getValves();
-    }
-
-    @Override
-    public void addValve(Valve valve) {
-        pipeline.addValve(valve);
-    }
-
-    @Override
-    public void removeValve(Valve valve) {
-        pipeline.removeValve(valve);
-    }
-
-    @Override
-    public Loader getLoader() {
-        if (loader != null){
-            return loader;
-        }
-        if (parent != null){
-            return parent.getLoader();
-        }
-        return null;
-    }
-
-    @Override
-    public void setLoader(Loader loader) {
-        this.loader = loader;
-    }
-
-    @Override
-    public Servlet allocate() throws ServletException {
-        //Load and initialize our instance if necessary
-        if (instance == null){
-            try{
-                instance = loadServlet();
-            }catch (ServletException e){
-                throw e;
-            }catch (Throwable e){
-                throw new ServletException("Cannot allocate a servlet instance");
-            }
-        }
-        return instance;
+        setBasic(new SimpleWrapperValve());
     }
 
     private Servlet loadServlet() throws ServletException{
@@ -142,23 +67,23 @@ public class SimpleWrapper extends ContainerBase implements Wrapper {
     }
 
     @Override
-    public void setName(String name) {
-        this.name = name;
+    public void load() throws ServletException {
+        instance = loadServlet();
     }
 
     @Override
-    public String getName() {
-        return name;
-    }
-
-    @Override
-    public Container getParent() {
-        return parent;
-    }
-
-    @Override
-    public void setParent(Container container) {
-        this.parent = container;
+    public Servlet allocate() throws ServletException {
+        //Load and initialize our instance if necessary
+        if (instance == null){
+            try{
+                instance = loadServlet();
+            }catch (ServletException e){
+                throw e;
+            }catch (Throwable e){
+                throw new ServletException("Cannot allocate a servlet instance");
+            }
+        }
+        return instance;
     }
 
     @Override
@@ -176,13 +101,12 @@ public class SimpleWrapper extends ContainerBase implements Wrapper {
         return "simple wrapper";
     }
 
-    @Override
-    public void start() throws LifecycleException {
-
+    /**
+     * wrapper是最小的容器，不能添加child
+     * @param child
+     */
+    public void addChild(Container child) {
+        throw new IllegalStateException("SimpleWrapper.notChild");
     }
 
-    @Override
-    public void stop() throws LifecycleException {
-
-    }
 }

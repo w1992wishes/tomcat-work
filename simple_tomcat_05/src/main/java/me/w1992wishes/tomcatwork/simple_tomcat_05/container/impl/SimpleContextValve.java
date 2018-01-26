@@ -1,10 +1,8 @@
 package me.w1992wishes.tomcatwork.simple_tomcat_05.container.impl;
 
+import me.w1992wishes.tomcatwork.simple_tomcat_05.connector.http.HttpRequest;
+import me.w1992wishes.tomcatwork.simple_tomcat_05.connector.http.HttpResponse;
 import me.w1992wishes.tomcatwork.simple_tomcat_05.container.*;
-import org.apache.catalina.*;
-import org.apache.catalina.Container;
-import org.apache.catalina.ValveContext;
-import org.apache.catalina.Wrapper;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -14,26 +12,27 @@ import java.io.IOException;
 /**
  * Created by wanqinfeng on 2017/2/22.
  */
-public class SimpleContextValve implements me.w1992wishes.tomcatwork.simple_tomcat_05.container.Valve, Contained {
-    protected me.w1992wishes.tomcatwork.simple_tomcat_05.container.Container container;
+public class SimpleContextValve implements Valve, Contained {
+
+    protected Container container;
 
     @Override
-    public me.w1992wishes.tomcatwork.simple_tomcat_05.container.Container getContainer() {
+    public Container getContainer() {
         return container;
     }
 
     @Override
-    public void setContainer(me.w1992wishes.tomcatwork.simple_tomcat_05.container.Container container) {
+    public void setContainer(Container container) {
         this.container = container;
     }
 
     @Override
     public String getInfo() {
-        return null;
+        return "Simple Context Valve";
     }
 
     @Override
-    public void invoke(Request request, Response response, me.w1992wishes.tomcatwork.simple_tomcat_05.container.ValveContext valveContext) throws IOException, ServletException {
+    public void invoke(HttpRequest request, HttpResponse response, ValveContext valveContext) throws ServletException, IOException {
 
         //validate the request and response object types
         if (!(request.getRequest() instanceof HttpServletRequest) || !(response.getResponse() instanceof HttpServletResponse)) {
@@ -48,9 +47,9 @@ public class SimpleContextValve implements me.w1992wishes.tomcatwork.simple_tomc
 
         Context context = (Context) getContainer();
         //select the Wrapper to be used for this Request
-        me.w1992wishes.tomcatwork.simple_tomcat_05.container.Wrapper wrapper = null;
+        Wrapper wrapper = null;
         try {
-            wrapper = (me.w1992wishes.tomcatwork.simple_tomcat_05.container.Wrapper) context.map(request, true);
+            wrapper = (Wrapper) context.map(request, true);
         } catch (IllegalArgumentException e) {
             badRequest(requestURI, (HttpServletResponse) response.getResponse());
             return;

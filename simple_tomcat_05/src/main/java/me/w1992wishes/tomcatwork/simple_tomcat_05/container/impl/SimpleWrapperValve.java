@@ -1,5 +1,12 @@
 package me.w1992wishes.tomcatwork.simple_tomcat_05.container.impl;
 
+import me.w1992wishes.tomcatwork.simple_tomcat_05.connector.http.HttpRequest;
+import me.w1992wishes.tomcatwork.simple_tomcat_05.connector.http.HttpResponse;
+import me.w1992wishes.tomcatwork.simple_tomcat_05.container.Contained;
+import me.w1992wishes.tomcatwork.simple_tomcat_05.container.Container;
+import me.w1992wishes.tomcatwork.simple_tomcat_05.container.Valve;
+import me.w1992wishes.tomcatwork.simple_tomcat_05.container.ValveContext;
+
 import javax.servlet.Servlet;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
@@ -12,27 +19,27 @@ import java.io.IOException;
  * 基础阀
  * Created by wanqinfeng on 2017/2/19.
  */
-public class SimpleWrapperValve implements me.w1992wishes.tomcatwork.simple_tomcat_05.container.Valve, Contained {
+public class SimpleWrapperValve implements Valve, Contained {
 
-    protected me.w1992wishes.tomcatwork.simple_tomcat_05.container.Container container;
+    protected Container container;
 
     @Override
-    public me.w1992wishes.tomcatwork.simple_tomcat_05.container.Container getContainer() {
+    public Container getContainer() {
         return container;
     }
 
     @Override
-    public void setContainer(me.w1992wishes.tomcatwork.simple_tomcat_05.container.Container container) {
+    public void setContainer(Container container) {
         this.container = container;
     }
 
     @Override
     public String getInfo() {
-        return null;
+        return "The Basic Simple Wrapper Valve";
     }
 
     @Override
-    public void invoke(Request request, Response response, me.w1992wishes.tomcatwork.simple_tomcat_05.container.ValveContext valveContext) throws IOException, ServletException {
+    public void invoke(HttpRequest request, HttpResponse response, ValveContext valveContext) throws ServletException, IOException {
         SimpleWrapper wrapper = (SimpleWrapper) getContainer();
         ServletRequest sreq = request.getRequest();
         ServletResponse sres = response.getResponse();
@@ -45,14 +52,11 @@ public class SimpleWrapperValve implements me.w1992wishes.tomcatwork.simple_tomc
             hres = (HttpServletResponse) sres;
 
         //allocate servlet instance to process this request
-        try {
-            servlet = wrapper.allocate();
-            if (hres != null && hreq != null) {
-                servlet.service(hreq, hres);
-            } else {
-                servlet.service(sreq, sres);
-            }
-        } catch (ServletException e) {
+        servlet = wrapper.allocate();
+        if (hres != null && hreq != null) {
+            servlet.service(hreq, hres);
+        } else {
+            servlet.service(sreq, sres);
         }
     }
 }

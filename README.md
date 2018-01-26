@@ -307,4 +307,44 @@ public void invoke(HttpRequest request, HttpResponse response) throws IOExceptio
     }
 ```
 
+### 2.5 simple_tomcat05
+
+代码增加了很多，但貌似都没有用起来，反而有干扰作用，但后续总有用的，就还是放在那吧。
+
+simple_tomcat05旨在理解tomcat的容器设计：
+
+首先要明白，tomcat4中提供了engine，host，context及wrapper四种容器：
+
+1. Enigne：Engine是最顶层的容器，它是host容器的组合。其标准实现类为：StandardEngine。
+2. Host：Host是engine的子容器，它是context容器的集合。其标准实现类为：StandardHost。
+3. Context：Context是host的子容器，它是wrapper容器的集合。其标准实现类为：StandardContext，StandardContext是tomcat中最大的一个类。它封装的是每个web app。
+4. Wrapper：Wrapper是context的子容器，它封装的处理资源的每个具体的servlet。其标准实现类为：StandardWrapper。
+
+关于容器的概念，可以参考一篇博客，简单了解一下：
+
+[Tomcat架构分析之Container容器](http://blog.csdn.net/chen_fly2011/article/details/54930410)
+
+simple_tomcat04中已经出现过简单容器的概念，tomcat由连接器（像HttpConnector）监听请求，然后将请求交给处理器（像HttpProcessor）
+解析连接，解析请求头，解析请求体，创建请求对象等，然后具体的处理是交给容器的。
+
+Tomcat的容器设计很有层次感，大的容器由小的容器组成，同时每个容器又都包含Pipeline，Valve，以责任链模式的形式进行调用。
+
+了解了一些基本原理后，看一下tomcat的类设计：
+
+![](http://p35fthlny.bkt.clouddn.com/20180126_simple_tomcat_01.png)
+
+四个层次的容器都有一个标准实现，同时又提供了一个ContainerBase作为标准实现的抽象父类，提供一些通用的方法，设计是很清晰的。
+
+simple_tomcat05的代码分两部分：
+
+跟着BootStrap01的代码走，是简单的Wrapper容器实现，抛开LifeCycle相关的代码，和Simple_tomcat04的区别就在于引入了管道
+Pipeline和阀Valve；
+
+跟着BootStrap02的代码走，是简单的Context容器实现，是在Wrapper容器的基础上，再引入了Context容器，也好理解；
+
+管道和阀的设计是基于责任链模式，Pipeline维护Valve数组，可以增加和移出，并且都有一个BasicValve，然后是通过Pipeline的内部类
+ValveContext来实现遍历的。
+
+
+
 

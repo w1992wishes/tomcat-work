@@ -1,6 +1,7 @@
 package me.w1992wishes.tomcatwork.simple_tomcat_05.connector.http;
 
 import me.w1992wishes.tomcatwork.simple_tomcat_05.Lifecycle;
+import me.w1992wishes.tomcatwork.simple_tomcat_05.LifecycleListener;
 import me.w1992wishes.tomcatwork.simple_tomcat_05.exception.LifecycleException;
 import me.w1992wishes.tomcatwork.simple_tomcat_05.util.RequestUtil;
 import org.slf4j.Logger;
@@ -472,6 +473,20 @@ public class HttpProcessor implements Lifecycle, Runnable {
         this.socket = socket;
         available = true;
         notifyAll();
+    }
+
+    @Override
+    public void addLifecycleListener(LifecycleListener listener) {
+
+    }
+
+    @Override
+    public LifecycleListener[] findLifecycleListeners() {
+        return new LifecycleListener[0];
+    }
+
+    @Override
+    public void removeLifecycleListener(LifecycleListener listener) {
 
     }
 }

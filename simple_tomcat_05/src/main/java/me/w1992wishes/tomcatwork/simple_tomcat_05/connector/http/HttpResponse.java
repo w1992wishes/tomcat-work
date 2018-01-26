@@ -3,9 +3,11 @@ package me.w1992wishes.tomcatwork.simple_tomcat_05.connector.http;
 import me.w1992wishes.tomcatwork.simple_tomcat_05.Constants;
 import me.w1992wishes.tomcatwork.simple_tomcat_05.connector.ResponseStream;
 import me.w1992wishes.tomcatwork.simple_tomcat_05.connector.ResponseWriter;
+import me.w1992wishes.tomcatwork.simple_tomcat_05.container.Context;
 import me.w1992wishes.tomcatwork.simple_tomcat_05.util.CookieTools;
 
 import javax.servlet.ServletOutputStream;
+import javax.servlet.ServletResponse;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
@@ -67,6 +69,15 @@ public class HttpResponse implements HttpServletResponse {
      */
     protected int status = HttpServletResponse.SC_OK;
 
+    /**
+     * The facade associated with this response.
+     */
+    protected HttpResponseFacade facade = new HttpResponseFacade(this);
+
+    /**
+     * The Context within which this Response is being produced.
+     */
+    protected Context context = null;
 
     public HttpResponse(OutputStream output) {
         this.output = output;
@@ -587,5 +598,13 @@ public class HttpResponse implements HttpServletResponse {
 
     public Collection<String> getHeaderNames() {
         return null;
+    }
+
+    public ServletResponse getResponse() {
+        return (facade);
+    }
+
+    public void setContext(Context context) {
+        this.context = context;
     }
 }

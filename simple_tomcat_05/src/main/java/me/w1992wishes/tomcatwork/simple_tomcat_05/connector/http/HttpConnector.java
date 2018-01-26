@@ -2,11 +2,13 @@ package me.w1992wishes.tomcatwork.simple_tomcat_05.connector.http;
 
 import me.w1992wishes.tomcatwork.simple_tomcat_05.Constants;
 import me.w1992wishes.tomcatwork.simple_tomcat_05.Lifecycle;
+import me.w1992wishes.tomcatwork.simple_tomcat_05.LifecycleListener;
 import me.w1992wishes.tomcatwork.simple_tomcat_05.connector.Connector;
 import me.w1992wishes.tomcatwork.simple_tomcat_05.container.Container;
 import me.w1992wishes.tomcatwork.simple_tomcat_05.exception.LifecycleException;
 import me.w1992wishes.tomcatwork.simple_tomcat_05.net.DefaultServerSocketFactory;
 import me.w1992wishes.tomcatwork.simple_tomcat_05.net.ServerSocketFactory;
+import me.w1992wishes.tomcatwork.simple_tomcat_05.util.LifecycleSupport;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -41,7 +43,7 @@ public class HttpConnector  implements Connector, Lifecycle, Runnable {
 
     private String address = null;
 
-    private int port = 8080;
+    private int port = 9999;
 
     private int acceptCount = 10;
 
@@ -100,6 +102,11 @@ public class HttpConnector  implements Connector, Lifecycle, Runnable {
      * The Container used for processing requests received by this Connector.
      */
     protected Container container = null;
+
+    /**
+     * The lifecycle event support for this component.
+     */
+    protected LifecycleSupport lifecycle = new LifecycleSupport(this);
 
     /**
      * Create (or allocate) and return an available processor for use in
@@ -311,6 +318,7 @@ public class HttpConnector  implements Connector, Lifecycle, Runnable {
             throw new LifecycleException("httpConnector.alreadyStarted");
         }
         threadName = "HttpConnector[" + port + "]";
+        lifecycle.fireLifecycleEvent(START_EVENT, null);
         started = true;
 
         // Start our background thread， 在一个独立线程中处理到达的连接
@@ -330,7 +338,7 @@ public class HttpConnector  implements Connector, Lifecycle, Runnable {
         // Validate and update our current state
         if (!started)
             throw new LifecycleException("httpConnector.notStarted");
-
+        lifecycle.fireLifecycleEvent(STOP_EVENT, null);
         started = false;
 
         // Gracefully shut down all processors we have created
@@ -358,6 +366,32 @@ public class HttpConnector  implements Connector, Lifecycle, Runnable {
             threadStop();
         }
         serverSocket = null;
+    }
+
+    /**
+     * Add a lifecycle event listener to this component.
+     *
+     * @param listener The listener to add
+     */
+    public void addLifecycleListener(LifecycleListener listener) {
+        lifecycle.addLifecycleListener(listener);
+    }
+
+    /**
+     * Get the lifecycle listeners associated with this lifecycle. If this
+     * Lifecycle has no listeners registered, a zero-length array is returned.
+     */
+    public LifecycleListener[] findLifecycleListeners() {
+        return lifecycle.findLifecycleListeners();
+    }
+
+    /**
+     * Remove a lifecycle event listener from this component.
+     *
+     * @param listener The listener to add
+     */
+    public void removeLifecycleListener(LifecycleListener listener) {
+        lifecycle.removeLifecycleListener(listener);
     }
 
     /**

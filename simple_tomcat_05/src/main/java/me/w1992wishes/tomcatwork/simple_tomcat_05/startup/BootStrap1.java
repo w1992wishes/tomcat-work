@@ -22,7 +22,7 @@ public final class BootStrap1 {
         Valve valve2 = new ClientIPLoggerValve();
 
         Wrapper wrapper = new SimpleWrapper();
-        wrapper.setServletClass("ModernServlet");
+        wrapper.setServletClass("PrimitiveServlet");
         wrapper.setLoader(loader);
         ((Pipeline)wrapper).addValve(valve1);
         ((Pipeline)wrapper).addValve(valve2);
