@@ -437,6 +437,7 @@ public abstract class ContainerBase implements Container, Lifecycle, Pipeline{
 
         // Notify our interested LifecycleListeners
         lifecycle.fireLifecycleEvent(AFTER_STOP_EVENT, null);
+        started = false;
 
     }
 

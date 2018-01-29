@@ -59,6 +59,7 @@ public class BootStrap2 {
             System.in.read();
         } catch (Exception e) {
             LOGGER.error("", e);
+            throw new RuntimeException();
         }
     }
 
