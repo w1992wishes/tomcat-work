@@ -345,6 +345,94 @@ Pipeline和阀Valve；
 管道和阀的设计是基于责任链模式，Pipeline维护Valve数组，可以增加和移出，并且都有一个BasicValve，然后是通过Pipeline的内部类
 ValveContext来实现遍历的。
 
+### 2.6 simple_tomcat06
+
+simple_tomcat06 旨在了解tomcat的生命周期实现。
+
+tomcat4中有一个Lifecycle接口：
+
+```java
+public interface Lifecycle {
+
+    // ----------------------------------------------------- Manifest Constants
+
+    String START_EVENT = "start";
+
+    String BEFORE_START_EVENT = "before_start";
+
+    String AFTER_START_EVENT = "after_start";
+
+    String STOP_EVENT = "stop";
+
+    String BEFORE_STOP_EVENT = "before_stop";
+
+    String AFTER_STOP_EVENT = "after_stop";
+
+    // --------------------------------------------------------- Public Methods
+
+    void start() throws LifecycleException;
+
+    void stop() throws LifecycleException;
+
+    void addLifecycleListener(LifecycleListener listener);
+
+    LifecycleListener[] findLifecycleListeners();
+
+    void removeLifecycleListener(LifecycleListener listener);
+
+}
+```
+
+几乎所有的组件都实现了这个接口，像StandardContext，StandardWrapper，StandardPipeline，StandardContextValve等等；
+
+还有一个事件LifecycleEvent，事件的类型定义在Lifecycle接口中:
+
+```
+ public LifecycleEvent(Lifecycle lifecycle, String type, Object data) {
+        super(lifecycle);
+        this.lifecycle = lifecycle;
+        this.type = type;
+        this.data = data;
+    }
+```
+
+最后还有一个LifecycleListener:
+
+```java
+public interface LifecycleListener {
+
+    /**
+     * Acknowledge the occurrence of the specified event.
+     *
+     * @param event LifecycleEvent that has occurred
+     */
+    void lifecycleEvent(LifecycleEvent event);
+
+}
+```
+
+这三个类是典型的事件-监听器设计，Lifecycle充当事件源，LifecycleListener是监听器，LifecycleEvent是事件，为了更好复用，还提供了
+LifecycleSupport工具类:
+
+![](http://p35fthlny.bkt.clouddn.com/20180129_simple_tomcat_02.png)
+
+它们之间的UML类图大致如下：
+
+![](http://p35fthlny.bkt.clouddn.com/20180129_simple_tomcat_03.png)
+
+这里面LifecycleSupport这个工具类充当了事件源的角色，注册到里面的监听器接收到事件产生时，就会触发相应动作。
+
+simple_tomcat06的代码很简单，就增加了一个简单监听器，simple_tomcat05中关于生命周期的代码在这里才正式用上。
+
+在BootStrap中添加如下：
+
+![](http://p35fthlny.bkt.clouddn.com/20180129_simple_tomcat_04.png)
+
+
+
+
+
+
 
 
 

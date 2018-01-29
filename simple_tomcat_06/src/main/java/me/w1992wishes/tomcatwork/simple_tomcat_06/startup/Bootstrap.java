@@ -1,50 +1,69 @@
 package me.w1992wishes.tomcatwork.simple_tomcat_06.startup;
 
-import com.wan.tomcat.core.*;
-import me.w1992wishes.tomcatwork.simple_tomcat_04.core.*;
-import me.w1992wishes.tomcatwork.simple_tomcat_06.core.*;
-import org.apache.catalina.*;
-import org.apache.catalina.connector.http.HttpConnector;
+import me.w1992wishes.tomcatwork.simple_tomcat_06.Lifecycle;
+import me.w1992wishes.tomcatwork.simple_tomcat_06.LifecycleListener;
+import me.w1992wishes.tomcatwork.simple_tomcat_06.Loader;
+import me.w1992wishes.tomcatwork.simple_tomcat_06.connector.http.HttpConnector;
+import me.w1992wishes.tomcatwork.simple_tomcat_06.container.*;
+import me.w1992wishes.tomcatwork.simple_tomcat_06.container.impl.*;
+import me.w1992wishes.tomcatwork.simple_tomcat_06.valves.ClientIPLoggerValve;
+import me.w1992wishes.tomcatwork.simple_tomcat_06.valves.HeaderLoggerValve;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
- * Created by wanqinfeng on 2017/2/25.
+ * Created by wanqinfeng on 2017/2/22.
  */
-public class Bootstrap {
+public class BootStrap {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(BootStrap.class);
+
     public static void main(String[] args) {
-        Connector connector = new HttpConnector();
+
+        Context context = new SimpleContext();
+
+        Loader loader = new SimpleLoader();
+        context.setLoader(loader);
+
+        Valve valve1 = new HeaderLoggerValve();
+        Valve valve2 = new ClientIPLoggerValve();
+        ((Pipeline) context).addValve(valve1);
+        ((Pipeline) context).addValve(valve2);
+
         Wrapper wrapper1 = new SimpleWrapper();
         wrapper1.setName("Primitive");
         wrapper1.setServletClass("PrimitiveServlet");
         Wrapper wrapper2 = new SimpleWrapper();
         wrapper2.setName("Modern");
         wrapper2.setServletClass("ModernServlet");
-
-        Context context = new SimpleContext();
         context.addChild(wrapper1);
         context.addChild(wrapper2);
 
-        Mapper mapper = new SimpleContextMapper();
-        mapper.setProtocol("http");
         LifecycleListener listener = new SimpleContextLifecycleListener();
         ((Lifecycle) context).addLifecycleListener(listener);
+
+        Mapper mapper = new SimpleContextMapper();
+        mapper.setProtocol("http");
         context.addMapper(mapper);
-        Loader loader = new SimpleLoader();
-        context.setLoader(loader);
+
         // context.addServletMapping(pattern, name);
         context.addServletMapping("/Primitive", "Primitive");
         context.addServletMapping("/Modern", "Modern");
+
+        HttpConnector connector = new HttpConnector();
         connector.setContainer(context);
+
         try {
             connector.initialize();
-            ((Lifecycle) connector).start();
+            connector.start();
             ((Lifecycle) context).start();
 
             // make the application wait until we press a key.
             System.in.read();
-            ((Lifecycle) context).stop();
-        }
-        catch (Exception e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+            LOGGER.error("", e);
+            throw new RuntimeException();
         }
     }
+
 }
