@@ -43,7 +43,7 @@ public class HttpConnector  implements Connector, Lifecycle, Runnable {
 
     private String address = null;
 
-    private int port = 9999;
+    private int port = 8080;
 
     private int acceptCount = 10;
 
