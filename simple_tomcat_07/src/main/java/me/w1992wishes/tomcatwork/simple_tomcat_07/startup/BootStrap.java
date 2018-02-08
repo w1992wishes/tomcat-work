@@ -2,10 +2,11 @@ package me.w1992wishes.tomcatwork.simple_tomcat_07.startup;
 
 import me.w1992wishes.tomcatwork.simple_tomcat_07.Lifecycle;
 import me.w1992wishes.tomcatwork.simple_tomcat_07.LifecycleListener;
-import me.w1992wishes.tomcatwork.simple_tomcat_07.Loader;
+import me.w1992wishes.tomcatwork.simple_tomcat_07.loader.Loader;
 import me.w1992wishes.tomcatwork.simple_tomcat_07.connector.http.HttpConnector;
 import me.w1992wishes.tomcatwork.simple_tomcat_07.container.*;
 import me.w1992wishes.tomcatwork.simple_tomcat_07.container.impl.*;
+import me.w1992wishes.tomcatwork.simple_tomcat_07.loader.WebappLoader;
 import me.w1992wishes.tomcatwork.simple_tomcat_07.valves.ClientIPLoggerValve;
 import me.w1992wishes.tomcatwork.simple_tomcat_07.valves.HeaderLoggerValve;
 import org.slf4j.Logger;
@@ -22,7 +23,7 @@ public class BootStrap {
 
         Context context = new SimpleContext();
 
-        Loader loader = new SimpleLoader();
+        Loader loader = new WebappLoader();
         context.setLoader(loader);
 
         Valve valve1 = new HeaderLoggerValve();

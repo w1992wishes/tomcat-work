@@ -428,6 +428,37 @@ simple_tomcat06的代码很简单，就增加了一个简单监听器，simple_t
 
 ![](http://p35fthlny.bkt.clouddn.com/20180129_simple_tomcat_04.png)
 
+### 2.7 simple_tomcat07
+
+这个子项目主要用来了解tomcat04的类加载机制。
+
+我们知道java的双亲委派模型，加载某个类时，先是通过Bootstrap ClassLoader加载，然后再通过ExtClassLoader加载，再就是AppClassLoader
+，这是出于安全性的考虑。
+
+一个Servlet容器应该有自定义的类加载，不应该直接使用系统类加载器，因为Servlet不应该完全信任它正在运行的某个Servlet类，如果使用
+系统类加载器载入servlet类使用的所有类，那么servlet就能够访问所有的类，包括当前运行的JVM中环境变量CLASSPATH指明路径下所有的类，
+这十分危险。servlet应该只运行载入WEB-INF/classes目录下的类和从WEB-INF/lib目录下载入类。
+
+一般而言tomcat的类加载器会和一个Context相关联，因为不同的应用应该有自己的加载器，只加载自己目录下的类。
+
+比较复杂，没有完全写通，懒癌又犯了，可以大概看一下WebappClassLoader的loadClass方法，了解一下tomcat的加载机制。
+
+Therefore, from the perspective of a web application, class or resource loading looks in the following repositories, in this order:
+
+Bootstrap classes of your JVM
+/WEB-INF/classes of your web application
+/WEB-INF/lib/*.jar of your web application
+System class loader classes (described above)
+Common class loader classes (described above)
+
+If the web application class loader is configured with <Loader delegate="true"/> then the order becomes:
+
+Bootstrap classes of your JVM
+System class loader classes (described above)
+Common class loader classes (described above)
+/WEB-INF/classes of your web application
+/WEB-INF/lib/*.jar of your web application
+
 
 
 
