@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<books>
+    <book name="水浒传">
+        <author>
+            <name>施耐庵</name>
+            <name>罗贯中</name>
+        </author>
+        <creationDate>元末明初</creationDate>
+        <byname>
+            <name>水浒</name>
+            <name>忠义水浒传</name>
+        </byname>
+        <literaryStyle>小说</literaryStyle>
+    </book>
+    <book name="西游记">
+        <author>
+            <name>吴承恩</name>
+        </author>
+        <creationDate>明朝</creationDate>
+        <byname>
+            <name>西游释厄传</name>
+        </byname>
+        <literaryStyle>
+            浪漫主义章回体长篇神魔小说
+        </literaryStyle>
+    </book>
+    <book name="红楼梦">
+        <author>
+            <name>曹雪芹</name>
+            <name>程伟元</name>
+            <name>高鹗</name>
+        </author>
+        <creationDate>18世纪中叶</creationDate>
+        <byname>
+            <name>石头记</name>
+            <name>情僧录</name>
+            <name>风月宝鉴</name>
+            <name>金陵十二钗</name>
+            <name>金玉缘</name>
+        </byname>
+        <literaryStyle>
+            章回体长篇小说
+        </literaryStyle>
+    </book>
+</books>

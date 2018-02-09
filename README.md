@@ -459,6 +459,13 @@ Common class loader classes (described above)
 /WEB-INF/classes of your web application
 /WEB-INF/lib/*.jar of your web application
 
+## 三、总结
+
+深入剖析tomcat后面还有session的实现，安全等功能，这里就不再往下了，主要关注的是两大核心组件，Connector和Container。
+
+当然上面都是硬编码的方式，tomcat更多的是用配置的形式，那又涉及到了xml文件的解析，tomcat中使用的是Digester工具，有兴趣可以
+了解下。
+
 
 
 

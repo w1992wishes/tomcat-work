@@ -16,6 +16,7 @@
         <module>simple_tomcat_05</module>
         <module>simple_tomcat_06</module>
         <module>simple_tomcat_07</module>
+        <module>digester_using</module>
     </modules>
 
     <dependencies>
